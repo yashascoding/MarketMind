@@ -1,6 +1,7 @@
 package com.example.marketmind
 
 import android.os.Bundle
+import android.view.View
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -21,6 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(binding.main) { _, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            binding.navHostFragment.setPadding(0, systemBars.top, 0, 0)
             binding.bottomNavigation.setPadding(0, 0, 0, systemBars.bottom)
             insets
         }
@@ -29,5 +31,9 @@ class MainActivity : AppCompatActivity() {
             supportFragmentManager.findFragmentById(R.id.nav_host_fragment) as NavHostFragment
         val navController = navHostFragment.navController
         binding.bottomNavigation.setupWithNavController(navController)
+        navController.addOnDestinationChangedListener { _, destination, _ ->
+            binding.bottomNavigation.visibility =
+                if (destination.id == R.id.navigation_auth) View.GONE else View.VISIBLE
+        }
     }
 }

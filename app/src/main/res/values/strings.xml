@@ -24,6 +24,31 @@
     <string name="action_expand">Show Explanation</string>
     <string name="action_collapse">Hide Explanation</string>
 
+    <!-- Authentication entry -->
+    <string name="auth_logo_description">MarketMind rising market logo</string>
+    <string name="auth_brand_tagline">Market intelligence, in focus.</string>
+    <string name="auth_login_title">Welcome back</string>
+    <string name="auth_login_subtitle">Sign in to continue to your market dashboard.</string>
+    <string name="auth_signup_title">Create your account</string>
+    <string name="auth_signup_subtitle">Set up your MarketMind profile to get started.</string>
+    <string name="auth_name_label">Full name</string>
+    <string name="auth_email_label">Email address</string>
+    <string name="auth_password_label">Password</string>
+    <string name="auth_confirm_password_label">Confirm password</string>
+    <string name="auth_login_action">Sign in</string>
+    <string name="auth_signup_action">Create account</string>
+    <string name="auth_signup_submit">Create account</string>
+    <string name="auth_signup_prompt">New to MarketMind?</string>
+    <string name="auth_login_prompt">Already have an account?</string>
+    <string name="auth_demo_action">Explore demo dashboard</string>
+    <string name="auth_demo_note">Demo access uses sample market data. No account is created.</string>
+    <string name="auth_demo_toast">Opening the demo dashboard</string>
+    <string name="auth_unavailable_message">Authentication is not connected yet. Use demo access to continue; no credentials were sent or saved.</string>
+    <string name="auth_error_name_required">Enter your name.</string>
+    <string name="auth_error_email_invalid">Enter a valid email address.</string>
+    <string name="auth_error_password_short">Use at least 8 characters.</string>
+    <string name="auth_error_password_mismatch">Passwords do not match.</string>
+
     <!-- Risk Gauge Section -->
     <string name="risk_gauge_title">Market Risk Index</string>
     <string name="risk_level_low">Low Risk</string>

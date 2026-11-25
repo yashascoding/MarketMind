@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/bg_dark"
+    android:background="@drawable/bg_app_gradient_dark"
     android:orientation="vertical"
     tools:context=".ui.analytics.AnalyticsFragment">
 
@@ -13,9 +13,13 @@
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingHorizontal="@dimen/spacing_16dp"
-        android:paddingTop="@dimen/spacing_16dp"
-        android:paddingBottom="@dimen/spacing_8dp">
+        android:layout_marginHorizontal="@dimen/spacing_12dp"
+        android:layout_marginTop="@dimen/spacing_8dp"
+        android:layout_marginBottom="@dimen/spacing_8dp"
+        android:background="@drawable/bg_top_bar"
+        android:paddingHorizontal="@dimen/spacing_12dp"
+        android:paddingTop="@dimen/spacing_12dp"
+        android:paddingBottom="@dimen/spacing_12dp">
 
         <LinearLayout
             android:layout_width="wrap_content"
