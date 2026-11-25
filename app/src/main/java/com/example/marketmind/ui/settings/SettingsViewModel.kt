@@ -24,6 +24,9 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     val autoRefresh: StateFlow<Boolean> = settingsDataStore.autoRefresh
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
+    val demoMode: StateFlow<Boolean> = settingsDataStore.demoMode
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+
     private val _connectionResult = MutableStateFlow<String?>(null)
     val connectionResult: StateFlow<String?> = _connectionResult.asStateFlow()
 
@@ -39,6 +42,12 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     fun saveAutoRefresh(enabled: Boolean) {
         viewModelScope.launch {
             settingsDataStore.saveAutoRefresh(enabled)
+        }
+    }
+
+    fun saveDemoMode(enabled: Boolean) {
+        viewModelScope.launch {
+            settingsDataStore.saveDemoMode(enabled)
         }
     }
 

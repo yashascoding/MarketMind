@@ -18,6 +18,7 @@ class SettingsDataStore(private val context: Context) {
         const val DEFAULT_BASE_URL = "http://10.0.2.2:8000/"
         val KEY_BASE_URL = stringPreferencesKey("base_url")
         val KEY_AUTO_REFRESH = booleanPreferencesKey("auto_refresh")
+        val KEY_DEMO_MODE = booleanPreferencesKey("demo_mode")
     }
 
     val baseUrl: Flow<String> = context.settingsDataStore.data.map { preferences ->
@@ -26,6 +27,10 @@ class SettingsDataStore(private val context: Context) {
 
     val autoRefresh: Flow<Boolean> = context.settingsDataStore.data.map { preferences ->
         preferences[KEY_AUTO_REFRESH] ?: false
+    }
+
+    val demoMode: Flow<Boolean> = context.settingsDataStore.data.map { preferences ->
+        preferences[KEY_DEMO_MODE] ?: true
     }
 
     suspend fun saveBaseUrl(url: String) {
@@ -38,6 +43,12 @@ class SettingsDataStore(private val context: Context) {
     suspend fun saveAutoRefresh(enabled: Boolean) {
         context.settingsDataStore.edit { preferences ->
             preferences[KEY_AUTO_REFRESH] = enabled
+        }
+    }
+
+    suspend fun saveDemoMode(enabled: Boolean) {
+        context.settingsDataStore.edit { preferences ->
+            preferences[KEY_DEMO_MODE] = enabled
         }
     }
 }

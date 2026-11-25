@@ -1,5 +1,6 @@
 package com.example.marketmind.ui.adapters
 
+import android.content.res.ColorStateList
 import android.graphics.Color
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -28,6 +29,7 @@ class AllocationComparisonAdapter :
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: PortfolioAllocation) {
+            val context = binding.root.context
             binding.tvAssetName.text = item.assetName
             binding.tvCurrentPct.text = String.format(Locale.US, "%.1f%%", item.currentPercentage)
             binding.tvSuggestedPct.text = String.format(Locale.US, "%.1f%%", item.suggestedPercentage)
@@ -41,11 +43,18 @@ class AllocationComparisonAdapter :
                 diff < 0 -> R.color.market_negative
                 else -> R.color.market_neutral
             }
-            binding.tvDifferencePct.setTextColor(ContextCompat.getColor(binding.root.context, colorRes))
+            val pillBgRes = when {
+                diff > 0 -> R.drawable.bg_pill_positive
+                diff < 0 -> R.drawable.bg_pill_negative
+                else -> R.drawable.bg_chip
+            }
+
+            binding.tvDifferencePct.setTextColor(ContextCompat.getColor(context, colorRes))
+            binding.layoutDiffPill.setBackgroundResource(pillBgRes)
 
             try {
                 binding.viewColorIndicator.backgroundTintList =
-                    android.content.res.ColorStateList.valueOf(Color.parseColor(item.colorHex))
+                    ColorStateList.valueOf(Color.parseColor(item.colorHex))
             } catch (e: Exception) {
                 // Fallback default color
             }

@@ -58,6 +58,10 @@ class SettingsFragment : Fragment() {
         binding.switchAutoRefresh.setOnCheckedChangeListener { _, isChecked ->
             viewModel.saveAutoRefresh(isChecked)
         }
+
+        binding.switchDemoMode.setOnCheckedChangeListener { _, isChecked ->
+            viewModel.saveDemoMode(isChecked)
+        }
     }
 
     private fun observeViewModel() {
@@ -74,6 +78,12 @@ class SettingsFragment : Fragment() {
                 launch {
                     viewModel.autoRefresh.collect { enabled ->
                         binding.switchAutoRefresh.isChecked = enabled
+                    }
+                }
+
+                launch {
+                    viewModel.demoMode.collect { enabled ->
+                        binding.switchDemoMode.isChecked = enabled
                     }
                 }
 

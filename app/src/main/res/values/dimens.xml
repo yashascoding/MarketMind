@@ -12,16 +12,16 @@
     <dimen name="spacing_48dp">48dp</dimen>
 
     <!-- Corner Radii -->
-    <dimen name="card_corner_radius">16dp</dimen>
-    <dimen name="chip_corner_radius">8dp</dimen>
-    <dimen name="bottom_sheet_corner_radius">24dp</dimen>
+    <dimen name="card_corner_radius">20dp</dimen>
+    <dimen name="chip_corner_radius">12dp</dimen>
+    <dimen name="bottom_sheet_corner_radius">28dp</dimen>
 
     <!-- Elevation -->
     <dimen name="card_elevation">0dp</dimen>
     <dimen name="stroke_width">1dp</dimen>
 
     <!-- Custom Gauge / Chart Dimensions -->
-    <dimen name="gauge_size">220dp</dimen>
-    <dimen name="chart_height">200dp</dimen>
+    <dimen name="gauge_size">240dp</dimen>
+    <dimen name="chart_height">220dp</dimen>
     <dimen name="donut_size">180dp</dimen>
 </resources>

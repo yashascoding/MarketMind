@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
+    android:background="@color/bg_dark"
     android:orientation="vertical"
     tools:context=".ui.dashboard.DashboardFragment">
 
-    <!-- Top App Bar -->
+    <!-- Top App Bar with Glowing Status -->
     <RelativeLayout
         android:id="@+id/top_bar"
         android:layout_width="match_parent"
@@ -24,13 +24,32 @@
             android:layout_centerVertical="true"
             android:orientation="vertical">
 
-            <TextView
+            <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/dashboard_title"
-                android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnSurface"
-                android:textStyle="bold" />
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/app_name"
+                    android:textAppearance="?attr/textAppearanceTitleLarge"
+                    android:textColor="@color/text_primary_dark"
+                    android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_8dp"
+                    android:background="@drawable/bg_badge_neon"
+                    android:paddingHorizontal="8dp"
+                    android:paddingVertical="2dp"
+                    android:text="AI RADAR"
+                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                    android:textColor="@color/accent_cyan"
+                    android:textStyle="bold" />
+            </LinearLayout>
 
             <TextView
                 android:id="@+id/tv_last_updated"
@@ -38,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="2dp"
                 android:textAppearance="?attr/textAppearanceLabelSmall"
-                android:textColor="?attr/colorOnSurfaceVariant"
+                android:textColor="@color/text_secondary_dark"
                 tools:text="As of 14:32 (Connected)" />
         </LinearLayout>
 
@@ -61,8 +80,8 @@
                 android:paddingHorizontal="@dimen/spacing_8dp"
                 android:paddingVertical="@dimen/spacing_4dp"
                 android:textAppearance="?attr/textAppearanceLabelSmall"
-                android:textColor="?attr/colorStatusOnline"
-                tools:text="Connected" />
+                android:textColor="@color/status_online"
+                tools:text="Live Backend" />
 
             <ImageButton
                 android:id="@+id/btn_refresh"
@@ -71,7 +90,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/action_refresh"
                 android:src="@drawable/ic_refresh"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/text_primary_dark" />
 
             <ImageButton
                 android:id="@+id/btn_settings"
@@ -80,7 +99,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="@string/nav_settings"
                 android:src="@drawable/ic_settings"
-                app:tint="?attr/colorOnSurface" />
+                app:tint="@color/text_primary_dark" />
         </LinearLayout>
     </RelativeLayout>
 
@@ -111,10 +130,10 @@
                         android:id="@+id/card_risk_gauge"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="?attr/colorCardBackground"
+                        app:cardBackgroundColor="@color/surface_card_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"
-                        app:strokeColor="?attr/colorCardStroke"
+                        app:strokeColor="@color/stroke_glowing"
                         app:strokeWidth="@dimen/stroke_width">
 
                         <LinearLayout
@@ -129,7 +148,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/risk_gauge_title"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="@color/text_primary_dark"
                                 android:textStyle="bold" />
 
                             <com.example.marketmind.ui.views.RiskGaugeView
@@ -145,7 +164,7 @@
                                 android:layout_marginTop="@dimen/spacing_8dp"
                                 android:gravity="center"
                                 android:textAppearance="?attr/textAppearanceBodySmall"
-                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textColor="@color/text_secondary_dark"
                                 tools:text="LSTM risk model detects elevated volatility probability." />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -156,10 +175,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_16dp"
-                        app:cardBackgroundColor="?attr/colorCardBackground"
+                        app:cardBackgroundColor="@color/surface_card_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"
-                        app:strokeColor="?attr/colorCardStroke"
+                        app:strokeColor="@color/stroke_dark"
                         app:strokeWidth="@dimen/stroke_width">
 
                         <LinearLayout
@@ -177,7 +196,7 @@
                                     android:layout_height="wrap_content"
                                     android:text="@string/regime_title"
                                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="?attr/colorOnSurface"
+                                    android:textColor="@color/text_primary_dark"
                                     android:textStyle="bold" />
 
                                 <TextView
@@ -187,8 +206,8 @@
                                     android:layout_alignParentEnd="true"
                                     android:fontFamily="monospace"
                                     android:textAppearance="?attr/textAppearanceLabelMedium"
-                                    android:textColor="?attr/colorOnSurfaceVariant"
-                                    tools:text="Confidence: 87%" />
+                                    android:textColor="@color/text_secondary_dark"
+                                    tools:text="Confidence: 88%" />
                             </RelativeLayout>
 
                             <LinearLayout
@@ -212,7 +231,7 @@
                                     android:layout_height="wrap_content"
                                     android:layout_marginStart="@dimen/spacing_8dp"
                                     android:textAppearance="?attr/textAppearanceTitleLarge"
-                                    android:textColor="?attr/colorOnSurface"
+                                    android:textColor="@color/text_primary_dark"
                                     android:textStyle="bold"
                                     tools:text="Volatile Market" />
                             </LinearLayout>
@@ -223,7 +242,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_8dp"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textColor="@color/text_secondary_dark"
                                 tools:text="@string/regime_desc_volatile" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
@@ -236,7 +255,7 @@
                         android:layout_marginBottom="@dimen/spacing_8dp"
                         android:text="@string/market_overview_title"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary_dark"
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -253,10 +272,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_20dp"
-                        app:cardBackgroundColor="?attr/colorCardBackground"
+                        app:cardBackgroundColor="@color/surface_card_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"
-                        app:strokeColor="?attr/colorCardStroke"
+                        app:strokeColor="@color/stroke_dark"
                         app:strokeWidth="@dimen/stroke_width">
 
                         <LinearLayout
@@ -270,7 +289,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/historical_risk_title"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="@color/text_primary_dark"
                                 android:textStyle="bold" />
 
                             <TextView
@@ -278,7 +297,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/chart_touch_hint"
                                 android:textAppearance="?attr/textAppearanceLabelSmall"
-                                android:textColor="?attr/colorOnSurfaceVariant" />
+                                android:textColor="@color/text_secondary_dark" />
 
                             <com.example.marketmind.ui.views.RiskLineChartView
                                 android:id="@+id/chart_historical_risk"

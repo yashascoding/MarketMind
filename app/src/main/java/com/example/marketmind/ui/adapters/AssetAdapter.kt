@@ -26,6 +26,7 @@ class AssetAdapter : ListAdapter<MarketAsset, AssetAdapter.AssetViewHolder>(Asse
         RecyclerView.ViewHolder(binding.root) {
 
         fun bind(item: MarketAsset) {
+            val context = binding.root.context
             binding.tvAssetName.text = item.name
             binding.tvAssetSymbol.text = item.symbol
             binding.tvAssetPrice.text = Formatters.formatPrice(item.price)
@@ -33,10 +34,12 @@ class AssetAdapter : ListAdapter<MarketAsset, AssetAdapter.AssetViewHolder>(Asse
 
             val isPositive = item.changePercent >= 0
             val colorRes = if (isPositive) R.color.market_positive else R.color.market_negative
+            val pillBgRes = if (isPositive) R.drawable.bg_pill_positive else R.drawable.bg_pill_negative
             val iconRes = if (isPositive) R.drawable.ic_trending_up else R.drawable.ic_trending_down
 
-            val color = ContextCompat.getColor(binding.root.context, colorRes)
+            val color = ContextCompat.getColor(context, colorRes)
             binding.tvChangePercent.setTextColor(color)
+            binding.layoutChangePill.setBackgroundResource(pillBgRes)
             binding.ivTrend.setImageResource(iconRes)
             binding.ivTrend.setColorFilter(color)
         }

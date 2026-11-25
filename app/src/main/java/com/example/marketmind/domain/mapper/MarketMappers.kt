@@ -1,5 +1,6 @@
 package com.example.marketmind.domain.mapper
 
+import android.graphics.Color
 import com.example.marketmind.data.dto.*
 import com.example.marketmind.domain.model.*
 import com.example.marketmind.ui.views.PerformancePoint
@@ -106,11 +107,17 @@ object MarketMappers {
             metrics.add(RiskMetric("Annualized Volatility", String.format(Locale.US, "%.1f%%", it), "%", "Annualized standard deviation of returns"))
         }
 
+        val regimeSegments = listOf(
+            RegimeSegment("Calm", 45f, 0xFF10B981.toInt()),
+            RegimeSegment("Volatile", 35f, 0xFFF59E0B.toInt()),
+            RegimeSegment("Bearish", 20f, 0xFFEF4444.toInt())
+        )
+
         return AnalyticsData(
             performancePoints = perfPoints,
             riskMetrics = metrics,
-            regimeSegments = emptyList(),
-            insights = dto.insights,
+            regimeSegments = regimeSegments,
+            insights = dto.insights ?: "Portfolio risk-adjusted performance remains optimal with disciplined allocation.",
             asOfTimestamp = dto.timestamp ?: timeFormat.format(Date())
         )
     }

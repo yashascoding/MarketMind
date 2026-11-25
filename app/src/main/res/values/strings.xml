@@ -90,6 +90,8 @@
     <string name="settings_connection_url_hint">http://10.0.2.2:8000/</string>
     <string name="settings_refresh_section">Data Refresh Settings</string>
     <string name="settings_auto_refresh">Background Auto-Refresh</string>
+    <string name="settings_demo_mode">Demo / Offline Data Mode</string>
+    <string name="settings_demo_mode_desc">Automatically use high-quality simulated market predictions when server is offline</string>
     <string name="settings_app_info">Application Details</string>
     <string name="settings_app_version">Version 1.0.0 (Build 1)</string>
     <string name="settings_disclaimer_title">Academic Prototype Disclaimer</string>

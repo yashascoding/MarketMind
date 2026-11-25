@@ -72,6 +72,11 @@ class DashboardFragment : Fragment() {
             findNavController().navigate(R.id.action_dashboard_to_settings)
         }
 
+        binding.tvConnectionChip.setOnClickListener {
+            HapticFeedbackUtil.performClickFeedback(it)
+            findNavController().navigate(R.id.action_dashboard_to_settings)
+        }
+
         binding.errorView.btnErrorRetry.setOnClickListener {
             viewModel.refreshData()
         }
@@ -159,8 +164,9 @@ class DashboardFragment : Fragment() {
                 binding.skeletonView.containerSkeletonDashboard.visibility = View.GONE
                 val cached = state.cachedData as? RiskData
                 if (cached != null) {
-                    // Show stale cached data with error warning
                     binding.gaugeRisk.setRiskProbability(cached.probability)
+                    binding.tvRiskExplanation.text = cached.explanation ?: getString(R.string.risk_no_data)
+                    binding.chartHistoricalRisk.setData(cached.history)
                     binding.tvLastUpdated.text = getString(R.string.status_stale, cached.asOfTimestamp)
                 } else {
                     showErrorUI(state.type, state.message)
@@ -170,26 +176,28 @@ class DashboardFragment : Fragment() {
     }
 
     private fun handleRegimeState(state: UiState<RegimeData>) {
-        when (state) {
-            is UiState.Success -> {
-                val regime = state.data
-                binding.tvRegimeName.text = regime.regime
-                binding.tvRegimeDescription.text = regime.description ?: getRegimeDescription(regime.regime)
-                regime.confidence?.let {
-                    binding.tvRegimeConfidence.text = getString(R.string.regime_confidence_format, it)
-                }
+        val regime = when (state) {
+            is UiState.Success -> state.data
+            is UiState.Error -> state.cachedData as? RegimeData
+            else -> null
+        }
+        regime?.let {
+            binding.tvRegimeName.text = it.regime
+            binding.tvRegimeDescription.text = it.description ?: getRegimeDescription(it.regime)
+            it.confidence?.let { conf ->
+                binding.tvRegimeConfidence.text = getString(R.string.regime_confidence_format, conf)
             }
-            else -> {}
         }
     }
 
+    @Suppress("UNCHECKED_CAST")
     private fun handleOverviewState(state: UiState<List<MarketAsset>>) {
-        when (state) {
-            is UiState.Success -> {
-                assetAdapter.submitList(state.data)
-            }
-            else -> {}
+        val list = when (state) {
+            is UiState.Success -> state.data
+            is UiState.Error -> state.cachedData as? List<MarketAsset>
+            else -> null
         }
+        list?.let { assetAdapter.submitList(it) }
     }
 
     private fun getRegimeDescription(regime: String): String {

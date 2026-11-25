@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="?android:attr/colorBackground"
+    android:background="@color/bg_dark"
     android:orientation="vertical"
     tools:context=".ui.portfolio.PortfolioFragment">
 
@@ -29,7 +29,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/portfolio_title"
                 android:textAppearance="?attr/textAppearanceTitleLarge"
-                android:textColor="?attr/colorOnSurface"
+                android:textColor="@color/text_primary_dark"
                 android:textStyle="bold" />
 
             <TextView
@@ -39,7 +39,7 @@
                 android:layout_marginTop="2dp"
                 android:text="@string/portfolio_subtitle"
                 android:textAppearance="?attr/textAppearanceLabelSmall"
-                android:textColor="?attr/colorOnSurfaceVariant" />
+                android:textColor="@color/text_secondary_dark" />
         </LinearLayout>
 
         <ImageButton
@@ -51,7 +51,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="@string/action_refresh"
             android:src="@drawable/ic_refresh"
-            app:tint="?attr/colorOnSurface" />
+            app:tint="@color/text_primary_dark" />
     </RelativeLayout>
 
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
@@ -80,10 +80,10 @@
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        app:cardBackgroundColor="?attr/colorCardBackground"
+                        app:cardBackgroundColor="@color/surface_card_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"
-                        app:strokeColor="?attr/colorCardStroke"
+                        app:strokeColor="@color/stroke_glowing"
                         app:strokeWidth="@dimen/stroke_width">
 
                         <LinearLayout
@@ -97,7 +97,7 @@
                                 android:layout_height="wrap_content"
                                 android:text="@string/portfolio_summary_title"
                                 android:textAppearance="?attr/textAppearanceTitleMedium"
-                                android:textColor="?attr/colorOnSurface"
+                                android:textColor="@color/text_primary_dark"
                                 android:textStyle="bold" />
 
                             <LinearLayout
@@ -118,7 +118,7 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/current_allocation"
                                         android:textAppearance="?attr/textAppearanceLabelSmall"
-                                        android:textColor="?attr/colorOnSurfaceVariant" />
+                                        android:textColor="@color/text_secondary_dark" />
 
                                     <com.example.marketmind.ui.views.AllocationDonutChartView
                                         android:id="@+id/chart_current_allocation"
@@ -139,7 +139,8 @@
                                         android:layout_height="wrap_content"
                                         android:text="@string/suggested_allocation"
                                         android:textAppearance="?attr/textAppearanceLabelSmall"
-                                        android:textColor="?attr/colorOnSurfaceVariant" />
+                                        android:textColor="@color/accent_cyan"
+                                        android:textStyle="bold" />
 
                                     <com.example.marketmind.ui.views.AllocationDonutChartView
                                         android:id="@+id/chart_suggested_allocation"
@@ -160,7 +161,7 @@
                         android:layout_marginBottom="@dimen/spacing_8dp"
                         android:text="@string/allocation_comparison"
                         android:textAppearance="?attr/textAppearanceTitleMedium"
-                        android:textColor="?attr/colorOnSurface"
+                        android:textColor="@color/text_primary_dark"
                         android:textStyle="bold" />
 
                     <!-- Header Row -->
@@ -176,7 +177,7 @@
                             android:layout_weight="2"
                             android:text="@string/col_asset"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="@color/text_secondary_dark" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -185,7 +186,7 @@
                             android:gravity="end"
                             android:text="@string/col_current"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="@color/text_secondary_dark" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -194,7 +195,7 @@
                             android:gravity="end"
                             android:text="@string/col_suggested"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="@color/text_secondary_dark" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -203,7 +204,7 @@
                             android:gravity="end"
                             android:text="@string/col_difference"
                             android:textAppearance="?attr/textAppearanceLabelSmall"
-                            android:textColor="?attr/colorOnSurfaceVariant" />
+                            android:textColor="@color/text_secondary_dark" />
                     </LinearLayout>
 
                     <androidx.recyclerview.widget.RecyclerView
@@ -221,10 +222,10 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_16dp"
-                        app:cardBackgroundColor="?attr/colorCardBackground"
+                        app:cardBackgroundColor="@color/surface_card_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"
-                        app:strokeColor="?attr/colorCardStroke"
+                        app:strokeColor="@color/stroke_dark"
                         app:strokeWidth="@dimen/stroke_width">
 
                         <LinearLayout
@@ -248,7 +249,7 @@
                                     android:layout_centerVertical="true"
                                     android:text="@string/recommendation_explanation_title"
                                     android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="?attr/colorOnSurface"
+                                    android:textColor="@color/text_primary_dark"
                                     android:textStyle="bold" />
 
                                 <ImageView
@@ -259,7 +260,7 @@
                                     android:layout_centerVertical="true"
                                     android:contentDescription="@string/action_expand"
                                     app:srcCompat="@drawable/ic_expand_more"
-                                    app:tint="?attr/colorOnSurfaceVariant" />
+                                    app:tint="@color/text_secondary_dark" />
                             </RelativeLayout>
 
                             <TextView
@@ -268,7 +269,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_marginTop="@dimen/spacing_12dp"
                                 android:textAppearance="?attr/textAppearanceBodyMedium"
-                                android:textColor="?attr/colorOnSurfaceVariant"
+                                android:textColor="@color/text_secondary_dark"
                                 android:visibility="gone"
                                 tools:text="Due to elevated market risk detected by LSTM and volatile regime classification by HMM, equity allocation is reduced by 20% to mitigate drawdown."
                                 tools:visibility="visible" />
@@ -285,7 +286,7 @@
                         android:gravity="center"
                         android:text="@string/settings_disclaimer_compact"
                         android:textAppearance="?attr/textAppearanceLabelSmall"
-                        android:textColor="?attr/colorOnSurfaceVariant" />
+                        android:textColor="@color/text_secondary_dark" />
 
                 </LinearLayout>
             </androidx.core.widget.NestedScrollView>

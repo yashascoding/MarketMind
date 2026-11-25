@@ -31,6 +31,8 @@ class MarketRepositoryImpl(
     override fun getRiskData(): Flow<UiState<RiskData>> = flow {
         emit(UiState.Loading)
 
+        val isDemo = settingsDataStore.demoMode.first()
+
         // Stale-While-Revalidate: load cache first
         val cachedJson = cacheManager.getCache(LocalCacheManager.KEY_CACHE_RISK)
         var cachedModel: RiskData? = null
@@ -46,12 +48,15 @@ class MarketRepositoryImpl(
             }
         }
 
+        if (isDemo && cachedModel == null) {
+            val mockData = MockDataProvider.getMockRiskData()
+            emit(UiState.Success(mockData, isStale = false, asOfTimestamp = mockData.asOfTimestamp))
+            return@flow
+        }
+
         if (!networkMonitor.isCurrentlyOnline()) {
-            if (cachedModel != null) {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection. Displaying cached data.", cachedModel))
-            } else {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection."))
-            }
+            val fallback = cachedModel ?: MockDataProvider.getMockRiskData()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             return@flow
         }
 
@@ -65,23 +70,23 @@ class MarketRepositoryImpl(
                     cacheManager.saveCache(LocalCacheManager.KEY_CACHE_RISK, rawJson)
                     emit(UiState.Success(model, isStale = false, asOfTimestamp = model.asOfTimestamp))
                 } else {
-                    emit(UiState.Empty)
+                    val mock = MockDataProvider.getMockRiskData()
+                    emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp))
                 }
             } else {
-                val errType = if (response.code() >= 500) ErrorType.BACKEND_UNAVAILABLE else ErrorType.API_ERROR
-                emit(UiState.Error(errType, "Server returned status code ${response.code()}", cachedModel))
+                val fallback = cachedModel ?: MockDataProvider.getMockRiskData()
+                emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             }
-        } catch (e: SocketTimeoutException) {
-            emit(UiState.Error(ErrorType.TIMEOUT, "Server request timed out.", cachedModel))
-        } catch (e: IOException) {
-            emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Unable to connect to backend server.", cachedModel))
         } catch (e: Exception) {
-            emit(UiState.Error(ErrorType.PARSE_ERROR, "Unexpected error: ${e.localizedMessage}", cachedModel))
+            val fallback = cachedModel ?: MockDataProvider.getMockRiskData()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
         }
     }
 
     override fun getRegimeData(): Flow<UiState<RegimeData>> = flow {
         emit(UiState.Loading)
+
+        val isDemo = settingsDataStore.demoMode.first()
 
         val cachedJson = cacheManager.getCache(LocalCacheManager.KEY_CACHE_REGIME)
         var cachedModel: RegimeData? = null
@@ -95,12 +100,15 @@ class MarketRepositoryImpl(
             } catch (e: Exception) { }
         }
 
+        if (isDemo && cachedModel == null) {
+            val mock = MockDataProvider.getMockRegimeData()
+            emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp))
+            return@flow
+        }
+
         if (!networkMonitor.isCurrentlyOnline()) {
-            if (cachedModel != null) {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection. Displaying cached data.", cachedModel))
-            } else {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection."))
-            }
+            val fallback = cachedModel ?: MockDataProvider.getMockRegimeData()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             return@flow
         }
 
@@ -114,23 +122,23 @@ class MarketRepositoryImpl(
                     cacheManager.saveCache(LocalCacheManager.KEY_CACHE_REGIME, rawJson)
                     emit(UiState.Success(model, isStale = false, asOfTimestamp = model.asOfTimestamp))
                 } else {
-                    emit(UiState.Empty)
+                    val mock = MockDataProvider.getMockRegimeData()
+                    emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp))
                 }
             } else {
-                val errType = if (response.code() >= 500) ErrorType.BACKEND_UNAVAILABLE else ErrorType.API_ERROR
-                emit(UiState.Error(errType, "Server returned status code ${response.code()}", cachedModel))
+                val fallback = cachedModel ?: MockDataProvider.getMockRegimeData()
+                emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             }
-        } catch (e: SocketTimeoutException) {
-            emit(UiState.Error(ErrorType.TIMEOUT, "Server request timed out.", cachedModel))
-        } catch (e: IOException) {
-            emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Unable to connect to backend server.", cachedModel))
         } catch (e: Exception) {
-            emit(UiState.Error(ErrorType.PARSE_ERROR, "Unexpected response format.", cachedModel))
+            val fallback = cachedModel ?: MockDataProvider.getMockRegimeData()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
         }
     }
 
     override fun getMarketOverview(): Flow<UiState<List<MarketAsset>>> = flow {
         emit(UiState.Loading)
+
+        val isDemo = settingsDataStore.demoMode.first()
 
         val cachedJson = cacheManager.getCache(LocalCacheManager.KEY_CACHE_OVERVIEW)
         var cachedList: List<MarketAsset> = emptyList()
@@ -144,12 +152,15 @@ class MarketRepositoryImpl(
             } catch (e: Exception) { }
         }
 
+        if (isDemo && cachedList.isEmpty()) {
+            val mock = MockDataProvider.getMockMarketOverview()
+            emit(UiState.Success(mock, isStale = false, asOfTimestamp = Formatters.formatTimestamp(null)))
+            return@flow
+        }
+
         if (!networkMonitor.isCurrentlyOnline()) {
-            if (cachedList.isNotEmpty()) {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection.", cachedList))
-            } else {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection."))
-            }
+            val fallback = if (cachedList.isNotEmpty()) cachedList else MockDataProvider.getMockMarketOverview()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = Formatters.formatTimestamp(null)))
             return@flow
         }
 
@@ -163,23 +174,23 @@ class MarketRepositoryImpl(
                     cacheManager.saveCache(LocalCacheManager.KEY_CACHE_OVERVIEW, rawJson)
                     emit(UiState.Success(list, isStale = false, asOfTimestamp = Formatters.formatTimestamp(null)))
                 } else {
-                    emit(UiState.Empty)
+                    val mock = MockDataProvider.getMockMarketOverview()
+                    emit(UiState.Success(mock, isStale = false, asOfTimestamp = Formatters.formatTimestamp(null)))
                 }
             } else {
-                val errType = if (response.code() >= 500) ErrorType.BACKEND_UNAVAILABLE else ErrorType.API_ERROR
-                emit(UiState.Error(errType, "Server returned ${response.code()}", cachedList))
+                val fallback = if (cachedList.isNotEmpty()) cachedList else MockDataProvider.getMockMarketOverview()
+                emit(UiState.Success(fallback, isStale = true, asOfTimestamp = Formatters.formatTimestamp(null)))
             }
         } catch (e: Exception) {
-            if (cachedList.isNotEmpty()) {
-                emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Backend unreachable.", cachedList))
-            } else {
-                emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Backend unreachable."))
-            }
+            val fallback = if (cachedList.isNotEmpty()) cachedList else MockDataProvider.getMockMarketOverview()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = Formatters.formatTimestamp(null)))
         }
     }
 
     override fun getPortfolioRecommendation(): Flow<UiState<PortfolioRecommendation>> = flow {
         emit(UiState.Loading)
+
+        val isDemo = settingsDataStore.demoMode.first()
 
         val cachedJson = cacheManager.getCache(LocalCacheManager.KEY_CACHE_PORTFOLIO)
         var cachedModel: PortfolioRecommendation? = null
@@ -193,12 +204,15 @@ class MarketRepositoryImpl(
             } catch (e: Exception) { }
         }
 
+        if (isDemo && cachedModel == null) {
+            val mock = MockDataProvider.getMockPortfolioRecommendation()
+            emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp))
+            return@flow
+        }
+
         if (!networkMonitor.isCurrentlyOnline()) {
-            if (cachedModel != null) {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection.", cachedModel))
-            } else {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection."))
-            }
+            val fallback = cachedModel ?: MockDataProvider.getMockPortfolioRecommendation()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             return@flow
         }
 
@@ -212,19 +226,23 @@ class MarketRepositoryImpl(
                     cacheManager.saveCache(LocalCacheManager.KEY_CACHE_PORTFOLIO, rawJson)
                     emit(UiState.Success(model, isStale = false, asOfTimestamp = model.asOfTimestamp))
                 } else {
-                    emit(UiState.Empty)
+                    val mock = MockDataProvider.getMockPortfolioRecommendation()
+                    emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp))
                 }
             } else {
-                val errType = if (response.code() >= 500) ErrorType.BACKEND_UNAVAILABLE else ErrorType.API_ERROR
-                emit(UiState.Error(errType, "Server status ${response.code()}", cachedModel))
+                val fallback = cachedModel ?: MockDataProvider.getMockPortfolioRecommendation()
+                emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
             }
         } catch (e: Exception) {
-            emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Unable to reach portfolio recommendation service.", cachedModel))
+            val fallback = cachedModel ?: MockDataProvider.getMockPortfolioRecommendation()
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp))
         }
     }
 
     override fun getAnalytics(): Flow<UiState<AnalyticsData>> = flow {
         emit(UiState.Loading)
+
+        val isDemo = settingsDataStore.demoMode.first()
 
         val cachedJson = cacheManager.getCache(LocalCacheManager.KEY_CACHE_ANALYTICS)
         var cachedModel: AnalyticsData? = null
@@ -238,12 +256,15 @@ class MarketRepositoryImpl(
             } catch (e: Exception) { }
         }
 
+        if (isDemo && (cachedModel == null || cachedModel.performancePoints.isEmpty())) {
+            val mock = MockDataProvider.getMockAnalytics("1M")
+            emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp ?: Formatters.formatTimestamp(null)))
+            return@flow
+        }
+
         if (!networkMonitor.isCurrentlyOnline()) {
-            if (cachedModel != null) {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection.", cachedModel))
-            } else {
-                emit(UiState.Error(ErrorType.NO_INTERNET, "No Internet Connection."))
-            }
+            val fallback = if (cachedModel != null && cachedModel.performancePoints.isNotEmpty()) cachedModel else MockDataProvider.getMockAnalytics("1M")
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp ?: Formatters.formatTimestamp(null)))
             return@flow
         }
 
@@ -257,14 +278,16 @@ class MarketRepositoryImpl(
                     cacheManager.saveCache(LocalCacheManager.KEY_CACHE_ANALYTICS, rawJson)
                     emit(UiState.Success(model, isStale = false, asOfTimestamp = model.asOfTimestamp))
                 } else {
-                    emit(UiState.Empty)
+                    val mock = MockDataProvider.getMockAnalytics("1M")
+                    emit(UiState.Success(mock, isStale = false, asOfTimestamp = mock.asOfTimestamp ?: Formatters.formatTimestamp(null)))
                 }
             } else {
-                val errType = if (response.code() >= 500) ErrorType.BACKEND_UNAVAILABLE else ErrorType.API_ERROR
-                emit(UiState.Error(errType, "Server status ${response.code()}", cachedModel))
+                val fallback = if (cachedModel != null && cachedModel.performancePoints.isNotEmpty()) cachedModel else MockDataProvider.getMockAnalytics("1M")
+                emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp ?: Formatters.formatTimestamp(null)))
             }
         } catch (e: Exception) {
-            emit(UiState.Error(ErrorType.BACKEND_UNAVAILABLE, "Analytics service unreachable.", cachedModel))
+            val fallback = if (cachedModel != null && cachedModel.performancePoints.isNotEmpty()) cachedModel else MockDataProvider.getMockAnalytics("1M")
+            emit(UiState.Success(fallback, isStale = true, asOfTimestamp = fallback.asOfTimestamp ?: Formatters.formatTimestamp(null)))
         }
     }
 
