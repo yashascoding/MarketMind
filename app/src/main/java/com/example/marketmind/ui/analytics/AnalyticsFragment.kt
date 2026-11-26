@@ -76,6 +76,13 @@ class AnalyticsFragment : Fragment() {
             }
         }
 
+        binding.chipGroupBenchmark.setOnCheckedStateChangeListener { _, checkedIds ->
+            if (checkedIds.isNotEmpty()) {
+                HapticFeedbackUtil.performClickFeedback(binding.chipGroupBenchmark)
+                viewModel.refreshData()
+            }
+        }
+
         binding.errorView.btnErrorRetry.setOnClickListener {
             viewModel.refreshData()
         }
@@ -112,6 +119,8 @@ class AnalyticsFragment : Fragment() {
                 binding.chartPerformance.setData(data.performancePoints)
                 riskMetricAdapter.submitList(data.riskMetrics)
                 binding.viewRegimeTimeline.setSegments(data.regimeSegments)
+                binding.tvAnalyticsInsight.text =
+                    data.insights ?: "Market conditions remain stable; monitor downside risk and rebalance periodically."
             }
             is UiState.Empty -> {
                 binding.scrollContent.visibility = View.GONE
@@ -124,6 +133,9 @@ class AnalyticsFragment : Fragment() {
                 if (cached != null && (cached.performancePoints.isNotEmpty() || cached.riskMetrics.isNotEmpty())) {
                     binding.chartPerformance.setData(cached.performancePoints)
                     riskMetricAdapter.submitList(cached.riskMetrics)
+                    binding.viewRegimeTimeline.setSegments(cached.regimeSegments)
+                    binding.tvAnalyticsInsight.text =
+                        cached.insights ?: "Cached analytics: monitor the current risk-adjusted performance closely."
                 } else {
                     binding.scrollContent.visibility = View.GONE
                     binding.emptyView.containerEmpty.visibility = View.VISIBLE

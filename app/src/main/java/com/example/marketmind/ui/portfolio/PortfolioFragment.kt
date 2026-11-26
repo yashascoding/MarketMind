@@ -27,6 +27,7 @@ class PortfolioFragment : Fragment() {
 
     private val viewModel: PortfolioViewModel by viewModels()
     private lateinit var allocationAdapter: AllocationComparisonAdapter
+    private var allocations: List<com.example.marketmind.domain.model.PortfolioAllocation> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -76,6 +77,15 @@ class PortfolioFragment : Fragment() {
         binding.emptyView.btnEmptyAction.setOnClickListener {
             viewModel.refreshData()
         }
+
+        binding.chipGroupAllocations.setOnCheckedStateChangeListener { _, checkedIds ->
+            val filter = when {
+                checkedIds.contains(R.id.chip_alloc_increase) -> "increase"
+                checkedIds.contains(R.id.chip_alloc_decrease) -> "decrease"
+                else -> "all"
+            }
+            applyAllocationFilter(filter)
+        }
     }
 
     private fun observeViewModel() {
@@ -112,7 +122,25 @@ class PortfolioFragment : Fragment() {
                 binding.emptyView.containerEmpty.visibility = View.GONE
 
                 val recommendation = state.data
-                allocationAdapter.submitList(recommendation.currentAllocations)
+                allocations = recommendation.currentAllocations
+                applyAllocationFilter(
+                    when {
+                        binding.chipAllocIncrease.isChecked -> "increase"
+                        binding.chipAllocDecrease.isChecked -> "decrease"
+                        else -> "all"
+                    }
+                )
+
+                val largestShift = recommendation.currentAllocations.minByOrNull {
+                    it.differencePercentage
+                }
+                binding.tvMajorShift.text = String.format(
+                    java.util.Locale.US,
+                    "%+.1f%%",
+                    largestShift?.differencePercentage ?: 0f
+                )
+                binding.tvPortfolioState.text =
+                    recommendation.riskExposure?.substringBefore("(")?.trim() ?: "Balanced"
 
                 // Update Donut Charts
                 val currentSlices = recommendation.currentAllocations.map {
@@ -135,7 +163,8 @@ class PortfolioFragment : Fragment() {
                 binding.skeletonView.containerSkeletonPortfolio.visibility = View.GONE
                 val cached = state.cachedData as? PortfolioRecommendation
                 if (cached != null) {
-                    allocationAdapter.submitList(cached.currentAllocations)
+                    allocations = cached.currentAllocations
+                    applyAllocationFilter("all")
                 } else {
                     binding.errorView.containerError.visibility = View.VISIBLE
                     binding.errorView.tvErrorTitle.text = getString(R.string.error_backend_unavailable_title)
@@ -143,6 +172,15 @@ class PortfolioFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun applyAllocationFilter(filter: String) {
+        val filtered = when (filter) {
+            "increase" -> allocations.filter { it.differencePercentage > 0 }
+            "decrease" -> allocations.filter { it.differencePercentage < 0 }
+            else -> allocations
+        }
+        allocationAdapter.submitList(filtered)
     }
 
     private fun parseColorSafe(hex: String): Int {

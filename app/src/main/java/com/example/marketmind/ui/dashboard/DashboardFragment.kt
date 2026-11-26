@@ -30,6 +30,7 @@ class DashboardFragment : Fragment() {
 
     private val viewModel: DashboardViewModel by viewModels()
     private lateinit var assetAdapter: AssetAdapter
+    private var marketAssets: List<MarketAsset> = emptyList()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -88,6 +89,17 @@ class DashboardFragment : Fragment() {
         binding.emptyView.btnEmptyAction.setOnClickListener {
             viewModel.refreshData()
         }
+
+        binding.chipGroupAssets.setOnCheckedStateChangeListener { _, checkedIds ->
+            val filterCategory = when {
+                checkedIds.contains(R.id.chip_assets_indices) -> "Indices"
+                checkedIds.contains(R.id.chip_assets_equities) -> "Equities"
+                checkedIds.contains(R.id.chip_assets_commodities) -> "Commodities"
+                checkedIds.contains(R.id.chip_assets_bonds) -> "Bonds"
+                else -> "All"
+            }
+            applyAssetCategoryFilter(filterCategory)
+        }
     }
 
     private fun observeViewModel() {
@@ -124,11 +136,11 @@ class DashboardFragment : Fragment() {
         if (isOnline) {
             binding.tvConnectionChip.text = getString(R.string.status_connected)
             binding.tvConnectionChip.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_online))
-            binding.tvConnectionChip.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_check_circle, 0, 0, 0)
+            binding.tvConnectionChip.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         } else {
             binding.tvConnectionChip.text = getString(R.string.status_offline)
             binding.tvConnectionChip.setTextColor(ContextCompat.getColor(requireContext(), R.color.status_offline))
-            binding.tvConnectionChip.setCompoundDrawablesWithIntrinsicBounds(R.drawable.ic_wifi_off, 0, 0, 0)
+            binding.tvConnectionChip.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0)
         }
     }
 
@@ -197,7 +209,29 @@ class DashboardFragment : Fragment() {
             is UiState.Error -> state.cachedData as? List<MarketAsset>
             else -> null
         }
-        list?.let { assetAdapter.submitList(it) }
+        list?.let {
+            marketAssets = it
+            applyAssetCategoryFilter(getCurrentFilter())
+        }
+    }
+
+    private fun getCurrentFilter(): String {
+        return when {
+            binding.chipAssetsIndices.isChecked -> "Indices"
+            binding.chipAssetsEquities.isChecked -> "Equities"
+            binding.chipAssetsCommodities.isChecked -> "Commodities"
+            binding.chipAssetsBonds.isChecked -> "Bonds"
+            else -> "All"
+        }
+    }
+
+    private fun applyAssetCategoryFilter(category: String) {
+        val filtered = if (category.equals("All", ignoreCase = true)) {
+            marketAssets
+        } else {
+            marketAssets.filter { it.category.equals(category, ignoreCase = true) }
+        }
+        assetAdapter.submitList(if (filtered.isEmpty()) marketAssets else filtered)
     }
 
     private fun getRegimeDescription(regime: String): String {

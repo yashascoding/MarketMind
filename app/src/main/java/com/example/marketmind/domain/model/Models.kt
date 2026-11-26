@@ -25,7 +25,8 @@ data class MarketAsset(
     val symbol: String,
     val price: Double,
     val changePercent: Double,
-    val trend: String        // "up", "down", "neutral"
+    val trend: String,        // "up", "down", "neutral"
+    val category: String = "Indices"
 )
 
 data class PortfolioAllocation(

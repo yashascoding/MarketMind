@@ -124,6 +124,41 @@
                             android:text="@string/period_all" />
                     </com.google.android.material.chip.ChipGroup>
 
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_12dp"
+                        app:cardBackgroundColor="@color/surface_elevated_dark"
+                        app:cardCornerRadius="@dimen/card_corner_radius"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/stroke_dark"
+                        app:strokeWidth="@dimen/stroke_width">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:padding="@dimen/spacing_16dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="SMART INSIGHT"
+                                android:textAppearance="?attr/textAppearanceLabelSmall"
+                                android:textColor="@color/accent_cyan"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tv_analytics_insight"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:layout_marginTop="6dp"
+                                android:textAppearance="?attr/textAppearanceBodyMedium"
+                                android:textColor="@color/text_primary_dark"
+                                tools:text="Risk-adjusted performance is strong, with lower drawdown than the benchmark." />
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
                     <!-- Performance Chart Card -->
                     <com.google.android.material.card.MaterialCardView
                         android:layout_width="match_parent"
@@ -140,13 +175,50 @@
                             android:orientation="vertical"
                             android:padding="@dimen/spacing_16dp">
 
-                            <TextView
-                                android:layout_width="wrap_content"
+                            <RelativeLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_alignParentStart="true"
+                                    android:layout_centerVertical="true"
+                                    android:text="@string/performance_chart_title"
+                                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textStyle="bold" />
+                            </RelativeLayout>
+
+                            <com.google.android.material.chip.ChipGroup
+                                android:id="@+id/chip_group_benchmark"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:text="@string/performance_chart_title"
-                                android:textAppearance="?attr/textAppearanceTitleMedium"
-                                android:textColor="@color/text_primary_dark"
-                                android:textStyle="bold" />
+                                android:layout_marginTop="8dp"
+                                app:singleSelection="true">
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_bench_nifty"
+                                    style="@style/Widget.Material3.Chip.Filter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:checked="true"
+                                    android:text="NIFTY 50" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_bench_gold"
+                                    style="@style/Widget.Material3.Chip.Filter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Gold ETF" />
+
+                                <com.google.android.material.chip.Chip
+                                    android:id="@+id/chip_bench_bonds"
+                                    style="@style/Widget.Material3.Chip.Filter"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Sovereign Bond" />
+                            </com.google.android.material.chip.ChipGroup>
 
                             <com.example.marketmind.ui.views.PerformanceChartView
                                 android:id="@+id/chart_performance"

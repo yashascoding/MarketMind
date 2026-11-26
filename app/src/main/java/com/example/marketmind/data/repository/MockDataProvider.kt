@@ -49,11 +49,16 @@ object MockDataProvider {
 
     fun getMockMarketOverview(): List<MarketAsset> {
         return listOf(
-            MarketAsset("nifty50", "NIFTY 50 Index", "NIFTY", 24850.40, 0.65, "up"),
-            MarketAsset("banknifty", "Bank NIFTY", "BANKNIFTY", 51200.15, -0.32, "down"),
-            MarketAsset("it_index", "NIFTY IT", "NIFTYIT", 38410.80, 1.42, "up"),
-            MarketAsset("gold_etf", "Gold ETF Benchmark", "GOLDBEES", 6240.00, 0.25, "up"),
-            MarketAsset("bond_10y", "10Y Sovereign Bond", "IN10Y", 102.50, -0.05, "down")
+            MarketAsset("nifty50", "NIFTY 50 Index", "NIFTY", 24850.40, 0.65, "up", "Indices"),
+            MarketAsset("banknifty", "Bank NIFTY", "BANKNIFTY", 51200.15, -0.32, "down", "Indices"),
+            MarketAsset("it_index", "NIFTY IT Index", "NIFTYIT", 38410.80, 1.42, "up", "Indices"),
+            MarketAsset("reliance", "Reliance Industries", "RELIANCE", 2980.50, 1.15, "up", "Equities"),
+            MarketAsset("tcs", "Tata Consultancy Services", "TCS", 4120.00, 2.05, "up", "Equities"),
+            MarketAsset("hdfcbank", "HDFC Bank", "HDFCBANK", 1640.25, -0.85, "down", "Equities"),
+            MarketAsset("gold_etf", "Gold ETF Benchmark", "GOLDBEES", 6240.00, 0.45, "up", "Commodities"),
+            MarketAsset("silver_etf", "Silver ETF", "SILVERBEES", 88.50, 1.80, "up", "Commodities"),
+            MarketAsset("bond_10y", "10Y Sovereign Bond", "IN10Y", 102.50, -0.05, "down", "Bonds"),
+            MarketAsset("bond_5y", "5Y Corporate Bond", "CORPBOND", 105.80, 0.12, "up", "Bonds")
         )
     }
 
