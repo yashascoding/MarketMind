@@ -128,6 +128,99 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginBottom="@dimen/spacing_12dp"
+                        app:cardBackgroundColor="@color/surface_card_dark"
+                        app:cardCornerRadius="@dimen/card_corner_radius"
+                        app:cardElevation="0dp"
+                        app:strokeColor="@color/stroke_glowing"
+                        app:strokeWidth="@dimen/stroke_width">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:padding="@dimen/spacing_12dp">
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/analytics_portfolio_return"
+                                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                                    android:textColor="@color/text_secondary_dark" />
+
+                                <TextView
+                                    android:id="@+id/tv_period_portfolio_return"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/spacing_4dp"
+                                    android:fontFamily="monospace"
+                                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textStyle="bold"
+                                    tools:text="+8.4%" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/analytics_benchmark_return"
+                                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                                    android:textColor="@color/text_secondary_dark" />
+
+                                <TextView
+                                    android:id="@+id/tv_period_benchmark_return"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/spacing_4dp"
+                                    android:fontFamily="monospace"
+                                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textStyle="bold"
+                                    tools:text="+6.1%" />
+                            </LinearLayout>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="@string/analytics_relative_return"
+                                    android:textAppearance="?attr/textAppearanceLabelSmall"
+                                    android:textColor="@color/text_secondary_dark" />
+
+                                <TextView
+                                    android:id="@+id/tv_period_relative_return"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_marginTop="@dimen/spacing_4dp"
+                                    android:fontFamily="monospace"
+                                    android:textAppearance="?attr/textAppearanceTitleMedium"
+                                    android:textColor="@color/text_primary_dark"
+                                    android:textStyle="bold"
+                                    tools:text="+2.3%" />
+                            </LinearLayout>
+                        </LinearLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="@dimen/spacing_12dp"
                         app:cardBackgroundColor="@color/surface_elevated_dark"
                         app:cardCornerRadius="@dimen/card_corner_radius"
                         app:cardElevation="0dp"

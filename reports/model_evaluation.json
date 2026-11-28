@@ -1,0 +1,905 @@
+{
+  "model_version": "1.1.0",
+  "training_date_utc": "2026-11-27T16:23:23.940525+00:00",
+  "dataset_alignment": {
+    "method": "NIFTY trading dates are the master calendar. Other source prices are backward-as-of aligned for at most 7 calendar days; pre-inception, stale, and unavailable observations remain missing.",
+    "aligned_rows": 4709,
+    "date_start": "2007-09-17",
+    "date_end": "2026-11-27",
+    "duplicate_dates": 0,
+    "source_coverage": {
+      "brent": {
+        "file": "brent.csv",
+        "usable_nifty_dates": 4703,
+        "coverage_fraction": 0.998725844128265,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "dxy": {
+        "file": "dxy.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "gilt_etf": {
+        "file": "gilt_etf.csv",
+        "usable_nifty_dates": 1999,
+        "coverage_fraction": 0.4245062645997027,
+        "first_aligned_date": "2018-05-11",
+        "last_aligned_date": "2026-11-27"
+      },
+      "gilt_fund": {
+        "file": "gilt_fund.csv",
+        "usable_nifty_dates": 2623,
+        "coverage_fraction": 0.5570184752601401,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2018-06-08"
+      },
+      "gold": {
+        "file": "gold.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "goldbees": {
+        "file": "goldbees.csv",
+        "usable_nifty_dates": 4392,
+        "coverage_fraction": 0.9326820981100021,
+        "first_aligned_date": "2009-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "india_vix": {
+        "file": "india_vix.csv",
+        "usable_nifty_dates": 4593,
+        "coverage_fraction": 0.9753663198131238,
+        "first_aligned_date": "2008-03-03",
+        "last_aligned_date": "2026-11-27"
+      },
+      "nifty": {
+        "file": "nifty.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "niftybees": {
+        "file": "niftybees.csv",
+        "usable_nifty_dates": 4392,
+        "coverage_fraction": 0.9326820981100021,
+        "first_aligned_date": "2009-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "nse_gsec_10y": {
+        "file": "nse_gsec_10y_clean_price.csv",
+        "usable_nifty_dates": 2194,
+        "coverage_fraction": 0.4659163304310894,
+        "first_aligned_date": "2018-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "sp500": {
+        "file": "sp500.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "tlt": {
+        "file": "tlt.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "us_10y": {
+        "file": "us_10y.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "us_vix": {
+        "file": "us_vix.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "usdinr": {
+        "file": "usdinr.csv",
+        "usable_nifty_dates": 4698,
+        "coverage_fraction": 0.9976640475684859,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      }
+    },
+    "incomplete_master_dates_dropped": false
+  },
+  "deployment_training": {
+    "source_files": [
+      "data/raw/brent.csv (Close price series)",
+      "data/raw/dxy.csv (Close price series)",
+      "data/raw/gilt_etf.csv (Adj Close price series)",
+      "data/raw/gilt_fund.csv (nav price series)",
+      "data/raw/gold.csv (Close price series)",
+      "data/raw/goldbees.csv (Adj Close price series)",
+      "data/raw/india_vix.csv (Close price series)",
+      "data/raw/nifty.csv (Close price series)",
+      "data/raw/niftybees.csv (Adj Close price series)",
+      "data/raw/nse_gsec_10y_clean_price.csv (Close price series)",
+      "data/raw/sp500.csv (Close price series)",
+      "data/raw/tlt.csv (Adj Close price series)",
+      "data/raw/us_10y.csv (Close price series)",
+      "data/raw/us_vix.csv (Close price series)",
+      "data/raw/usdinr.csv (Close price series)"
+    ],
+    "source_count": 15,
+    "years_with_labeled_training_observations": [
+      2007,
+      2008,
+      2009,
+      2010,
+      2011,
+      2012,
+      2013,
+      2014,
+      2015,
+      2016,
+      2017,
+      2018,
+      2019,
+      2020,
+      2021,
+      2022,
+      2023,
+      2024,
+      2025,
+      2026
+    ],
+    "lstm_label_start": "2007-12-11",
+    "lstm_label_end": "2026-11-12",
+    "hmm_observation_end": "2026-11-27",
+    "lstm_refit_epochs": 3,
+    "fit_after_untouched_test_evaluation": true
+  },
+  "date_ranges": {
+    "train_start": "2007-12-11",
+    "train_end": "2021-02-10",
+    "validation_start": "2021-02-25",
+    "validation_end": "2023-12-18",
+    "test_start": "2024-01-03",
+    "test_end": "2026-11-12"
+  },
+  "label": {
+    "name": "elevated_risk",
+    "forecast_horizon_trading_sessions": 10,
+    "rule": "Positive if future 10-session maximum drawdown <= -5% OR future 10-session annualized realized volatility >= 30%.",
+    "drawdown_threshold": -0.05,
+    "annualized_volatility_threshold": 0.3,
+    "train_positive_rate": 0.2232919254658385,
+    "validation_positive_rate": 0.09352517985611511,
+    "test_positive_rate": 0.06524822695035461
+  },
+  "features": [
+    "daily_return_brent",
+    "log_return_brent",
+    "volatility_7d_brent",
+    "volatility_30d_brent",
+    "ma50_ratio_brent",
+    "ma200_ratio_brent",
+    "drawdown_brent",
+    "daily_return_dxy",
+    "log_return_dxy",
+    "volatility_7d_dxy",
+    "volatility_30d_dxy",
+    "ma50_ratio_dxy",
+    "ma200_ratio_dxy",
+    "drawdown_dxy",
+    "daily_return_gilt_etf",
+    "log_return_gilt_etf",
+    "volatility_7d_gilt_etf",
+    "volatility_30d_gilt_etf",
+    "ma50_ratio_gilt_etf",
+    "ma200_ratio_gilt_etf",
+    "drawdown_gilt_etf",
+    "daily_return_gilt_fund",
+    "log_return_gilt_fund",
+    "volatility_7d_gilt_fund",
+    "volatility_30d_gilt_fund",
+    "ma50_ratio_gilt_fund",
+    "ma200_ratio_gilt_fund",
+    "drawdown_gilt_fund",
+    "daily_return_gold",
+    "log_return_gold",
+    "volatility_7d_gold",
+    "volatility_30d_gold",
+    "ma50_ratio_gold",
+    "ma200_ratio_gold",
+    "drawdown_gold",
+    "daily_return_goldbees",
+    "log_return_goldbees",
+    "volatility_7d_goldbees",
+    "volatility_30d_goldbees",
+    "ma50_ratio_goldbees",
+    "ma200_ratio_goldbees",
+    "drawdown_goldbees",
+    "daily_return_india_vix",
+    "log_return_india_vix",
+    "volatility_7d_india_vix",
+    "volatility_30d_india_vix",
+    "ma50_ratio_india_vix",
+    "ma200_ratio_india_vix",
+    "drawdown_india_vix",
+    "daily_return_nifty",
+    "log_return_nifty",
+    "volatility_7d_nifty",
+    "volatility_30d_nifty",
+    "ma50_ratio_nifty",
+    "ma200_ratio_nifty",
+    "drawdown_nifty",
+    "daily_return_niftybees",
+    "log_return_niftybees",
+    "volatility_7d_niftybees",
+    "volatility_30d_niftybees",
+    "ma50_ratio_niftybees",
+    "ma200_ratio_niftybees",
+    "drawdown_niftybees",
+    "daily_return_nse_gsec_10y",
+    "log_return_nse_gsec_10y",
+    "volatility_7d_nse_gsec_10y",
+    "volatility_30d_nse_gsec_10y",
+    "ma50_ratio_nse_gsec_10y",
+    "ma200_ratio_nse_gsec_10y",
+    "drawdown_nse_gsec_10y",
+    "daily_return_sp500",
+    "log_return_sp500",
+    "volatility_7d_sp500",
+    "volatility_30d_sp500",
+    "ma50_ratio_sp500",
+    "ma200_ratio_sp500",
+    "drawdown_sp500",
+    "daily_return_tlt",
+    "log_return_tlt",
+    "volatility_7d_tlt",
+    "volatility_30d_tlt",
+    "ma50_ratio_tlt",
+    "ma200_ratio_tlt",
+    "drawdown_tlt",
+    "daily_return_us_10y",
+    "log_return_us_10y",
+    "volatility_7d_us_10y",
+    "volatility_30d_us_10y",
+    "ma50_ratio_us_10y",
+    "ma200_ratio_us_10y",
+    "drawdown_us_10y",
+    "daily_return_us_vix",
+    "log_return_us_vix",
+    "volatility_7d_us_vix",
+    "volatility_30d_us_vix",
+    "ma50_ratio_us_vix",
+    "ma200_ratio_us_vix",
+    "drawdown_us_vix",
+    "daily_return_usdinr",
+    "log_return_usdinr",
+    "volatility_7d_usdinr",
+    "volatility_30d_usdinr",
+    "ma50_ratio_usdinr",
+    "ma200_ratio_usdinr",
+    "drawdown_usdinr",
+    "corr_30d_nifty_brent",
+    "corr_30d_nifty_dxy",
+    "corr_30d_nifty_gilt_etf",
+    "corr_30d_nifty_gilt_fund",
+    "corr_30d_nifty_gold",
+    "corr_30d_nifty_goldbees",
+    "corr_30d_nifty_india_vix",
+    "corr_30d_nifty_niftybees",
+    "corr_30d_nifty_nse_gsec_10y",
+    "corr_30d_nifty_sp500",
+    "corr_30d_nifty_tlt",
+    "corr_30d_nifty_us_10y",
+    "corr_30d_nifty_us_vix",
+    "corr_30d_nifty_usdinr",
+    "india_vix_level",
+    "us_vix_level",
+    "us_10y_level",
+    "global_mean_log_return",
+    "global_volatility_7d"
+  ],
+  "expanded_features": [
+    "daily_return_brent",
+    "log_return_brent",
+    "volatility_7d_brent",
+    "volatility_30d_brent",
+    "ma50_ratio_brent",
+    "ma200_ratio_brent",
+    "drawdown_brent",
+    "daily_return_dxy",
+    "log_return_dxy",
+    "volatility_7d_dxy",
+    "volatility_30d_dxy",
+    "ma50_ratio_dxy",
+    "ma200_ratio_dxy",
+    "drawdown_dxy",
+    "daily_return_gilt_etf",
+    "log_return_gilt_etf",
+    "volatility_7d_gilt_etf",
+    "volatility_30d_gilt_etf",
+    "ma50_ratio_gilt_etf",
+    "ma200_ratio_gilt_etf",
+    "drawdown_gilt_etf",
+    "daily_return_gilt_fund",
+    "log_return_gilt_fund",
+    "volatility_7d_gilt_fund",
+    "volatility_30d_gilt_fund",
+    "ma50_ratio_gilt_fund",
+    "ma200_ratio_gilt_fund",
+    "drawdown_gilt_fund",
+    "daily_return_gold",
+    "log_return_gold",
+    "volatility_7d_gold",
+    "volatility_30d_gold",
+    "ma50_ratio_gold",
+    "ma200_ratio_gold",
+    "drawdown_gold",
+    "daily_return_goldbees",
+    "log_return_goldbees",
+    "volatility_7d_goldbees",
+    "volatility_30d_goldbees",
+    "ma50_ratio_goldbees",
+    "ma200_ratio_goldbees",
+    "drawdown_goldbees",
+    "daily_return_india_vix",
+    "log_return_india_vix",
+    "volatility_7d_india_vix",
+    "volatility_30d_india_vix",
+    "ma50_ratio_india_vix",
+    "ma200_ratio_india_vix",
+    "drawdown_india_vix",
+    "daily_return_nifty",
+    "log_return_nifty",
+    "volatility_7d_nifty",
+    "volatility_30d_nifty",
+    "ma50_ratio_nifty",
+    "ma200_ratio_nifty",
+    "drawdown_nifty",
+    "daily_return_niftybees",
+    "log_return_niftybees",
+    "volatility_7d_niftybees",
+    "volatility_30d_niftybees",
+    "ma50_ratio_niftybees",
+    "ma200_ratio_niftybees",
+    "drawdown_niftybees",
+    "daily_return_nse_gsec_10y",
+    "log_return_nse_gsec_10y",
+    "volatility_7d_nse_gsec_10y",
+    "volatility_30d_nse_gsec_10y",
+    "ma50_ratio_nse_gsec_10y",
+    "ma200_ratio_nse_gsec_10y",
+    "drawdown_nse_gsec_10y",
+    "daily_return_sp500",
+    "log_return_sp500",
+    "volatility_7d_sp500",
+    "volatility_30d_sp500",
+    "ma50_ratio_sp500",
+    "ma200_ratio_sp500",
+    "drawdown_sp500",
+    "daily_return_tlt",
+    "log_return_tlt",
+    "volatility_7d_tlt",
+    "volatility_30d_tlt",
+    "ma50_ratio_tlt",
+    "ma200_ratio_tlt",
+    "drawdown_tlt",
+    "daily_return_us_10y",
+    "log_return_us_10y",
+    "volatility_7d_us_10y",
+    "volatility_30d_us_10y",
+    "ma50_ratio_us_10y",
+    "ma200_ratio_us_10y",
+    "drawdown_us_10y",
+    "daily_return_us_vix",
+    "log_return_us_vix",
+    "volatility_7d_us_vix",
+    "volatility_30d_us_vix",
+    "ma50_ratio_us_vix",
+    "ma200_ratio_us_vix",
+    "drawdown_us_vix",
+    "daily_return_usdinr",
+    "log_return_usdinr",
+    "volatility_7d_usdinr",
+    "volatility_30d_usdinr",
+    "ma50_ratio_usdinr",
+    "ma200_ratio_usdinr",
+    "drawdown_usdinr",
+    "corr_30d_nifty_brent",
+    "corr_30d_nifty_dxy",
+    "corr_30d_nifty_gilt_etf",
+    "corr_30d_nifty_gilt_fund",
+    "corr_30d_nifty_gold",
+    "corr_30d_nifty_goldbees",
+    "corr_30d_nifty_india_vix",
+    "corr_30d_nifty_niftybees",
+    "corr_30d_nifty_nse_gsec_10y",
+    "corr_30d_nifty_sp500",
+    "corr_30d_nifty_tlt",
+    "corr_30d_nifty_us_10y",
+    "corr_30d_nifty_us_vix",
+    "corr_30d_nifty_usdinr",
+    "india_vix_level",
+    "us_vix_level",
+    "us_10y_level",
+    "global_mean_log_return",
+    "global_volatility_7d",
+    "missingindicator_daily_return_brent",
+    "missingindicator_log_return_brent",
+    "missingindicator_volatility_7d_brent",
+    "missingindicator_volatility_30d_brent",
+    "missingindicator_ma50_ratio_brent",
+    "missingindicator_ma200_ratio_brent",
+    "missingindicator_drawdown_brent",
+    "missingindicator_daily_return_dxy",
+    "missingindicator_log_return_dxy",
+    "missingindicator_volatility_7d_dxy",
+    "missingindicator_volatility_30d_dxy",
+    "missingindicator_ma50_ratio_dxy",
+    "missingindicator_ma200_ratio_dxy",
+    "missingindicator_drawdown_dxy",
+    "missingindicator_daily_return_gilt_etf",
+    "missingindicator_log_return_gilt_etf",
+    "missingindicator_volatility_7d_gilt_etf",
+    "missingindicator_volatility_30d_gilt_etf",
+    "missingindicator_ma50_ratio_gilt_etf",
+    "missingindicator_ma200_ratio_gilt_etf",
+    "missingindicator_drawdown_gilt_etf",
+    "missingindicator_daily_return_gilt_fund",
+    "missingindicator_log_return_gilt_fund",
+    "missingindicator_volatility_7d_gilt_fund",
+    "missingindicator_volatility_30d_gilt_fund",
+    "missingindicator_ma50_ratio_gilt_fund",
+    "missingindicator_ma200_ratio_gilt_fund",
+    "missingindicator_drawdown_gilt_fund",
+    "missingindicator_daily_return_gold",
+    "missingindicator_log_return_gold",
+    "missingindicator_volatility_7d_gold",
+    "missingindicator_volatility_30d_gold",
+    "missingindicator_ma50_ratio_gold",
+    "missingindicator_ma200_ratio_gold",
+    "missingindicator_drawdown_gold",
+    "missingindicator_daily_return_goldbees",
+    "missingindicator_log_return_goldbees",
+    "missingindicator_volatility_7d_goldbees",
+    "missingindicator_volatility_30d_goldbees",
+    "missingindicator_ma50_ratio_goldbees",
+    "missingindicator_ma200_ratio_goldbees",
+    "missingindicator_drawdown_goldbees",
+    "missingindicator_daily_return_india_vix",
+    "missingindicator_log_return_india_vix",
+    "missingindicator_volatility_7d_india_vix",
+    "missingindicator_volatility_30d_india_vix",
+    "missingindicator_ma50_ratio_india_vix",
+    "missingindicator_ma200_ratio_india_vix",
+    "missingindicator_drawdown_india_vix",
+    "missingindicator_daily_return_nifty",
+    "missingindicator_log_return_nifty",
+    "missingindicator_volatility_7d_nifty",
+    "missingindicator_volatility_30d_nifty",
+    "missingindicator_ma50_ratio_nifty",
+    "missingindicator_ma200_ratio_nifty",
+    "missingindicator_daily_return_niftybees",
+    "missingindicator_log_return_niftybees",
+    "missingindicator_volatility_7d_niftybees",
+    "missingindicator_volatility_30d_niftybees",
+    "missingindicator_ma50_ratio_niftybees",
+    "missingindicator_ma200_ratio_niftybees",
+    "missingindicator_drawdown_niftybees",
+    "missingindicator_daily_return_nse_gsec_10y",
+    "missingindicator_log_return_nse_gsec_10y",
+    "missingindicator_volatility_7d_nse_gsec_10y",
+    "missingindicator_volatility_30d_nse_gsec_10y",
+    "missingindicator_ma50_ratio_nse_gsec_10y",
+    "missingindicator_ma200_ratio_nse_gsec_10y",
+    "missingindicator_drawdown_nse_gsec_10y",
+    "missingindicator_daily_return_sp500",
+    "missingindicator_log_return_sp500",
+    "missingindicator_volatility_7d_sp500",
+    "missingindicator_volatility_30d_sp500",
+    "missingindicator_ma50_ratio_sp500",
+    "missingindicator_ma200_ratio_sp500",
+    "missingindicator_drawdown_sp500",
+    "missingindicator_daily_return_tlt",
+    "missingindicator_log_return_tlt",
+    "missingindicator_volatility_7d_tlt",
+    "missingindicator_volatility_30d_tlt",
+    "missingindicator_ma50_ratio_tlt",
+    "missingindicator_ma200_ratio_tlt",
+    "missingindicator_drawdown_tlt",
+    "missingindicator_daily_return_us_10y",
+    "missingindicator_log_return_us_10y",
+    "missingindicator_volatility_7d_us_10y",
+    "missingindicator_volatility_30d_us_10y",
+    "missingindicator_ma50_ratio_us_10y",
+    "missingindicator_ma200_ratio_us_10y",
+    "missingindicator_drawdown_us_10y",
+    "missingindicator_daily_return_us_vix",
+    "missingindicator_log_return_us_vix",
+    "missingindicator_volatility_7d_us_vix",
+    "missingindicator_volatility_30d_us_vix",
+    "missingindicator_ma50_ratio_us_vix",
+    "missingindicator_ma200_ratio_us_vix",
+    "missingindicator_drawdown_us_vix",
+    "missingindicator_daily_return_usdinr",
+    "missingindicator_log_return_usdinr",
+    "missingindicator_volatility_7d_usdinr",
+    "missingindicator_volatility_30d_usdinr",
+    "missingindicator_ma50_ratio_usdinr",
+    "missingindicator_ma200_ratio_usdinr",
+    "missingindicator_drawdown_usdinr",
+    "missingindicator_corr_30d_nifty_brent",
+    "missingindicator_corr_30d_nifty_dxy",
+    "missingindicator_corr_30d_nifty_gilt_etf",
+    "missingindicator_corr_30d_nifty_gilt_fund",
+    "missingindicator_corr_30d_nifty_gold",
+    "missingindicator_corr_30d_nifty_goldbees",
+    "missingindicator_corr_30d_nifty_india_vix",
+    "missingindicator_corr_30d_nifty_niftybees",
+    "missingindicator_corr_30d_nifty_nse_gsec_10y",
+    "missingindicator_corr_30d_nifty_sp500",
+    "missingindicator_corr_30d_nifty_tlt",
+    "missingindicator_corr_30d_nifty_us_10y",
+    "missingindicator_corr_30d_nifty_us_vix",
+    "missingindicator_corr_30d_nifty_usdinr",
+    "missingindicator_india_vix_level",
+    "missingindicator_us_vix_level",
+    "missingindicator_us_10y_level",
+    "missingindicator_global_mean_log_return",
+    "missingindicator_global_volatility_7d"
+  ],
+  "hmm_features": [
+    "log_return_nifty",
+    "volatility_7d_nifty",
+    "drawdown_nifty",
+    "global_mean_log_return",
+    "global_volatility_7d"
+  ],
+  "evaluation_preprocessor_fit_end": "2021-02-10",
+  "feature_scaler_fit_end": "2026-11-12",
+  "lstm": {
+    "architecture": "LSTM -> Dropout -> Dense(16, relu) -> sigmoid",
+    "sequence_length": 60,
+    "units": 32,
+    "selected_by": "validation PR-AUC; validation only",
+    "validation_pr_auc_by_configuration": [
+      {
+        "sequence_length": 20,
+        "units": 32,
+        "validation_pr_auc": 0.1492523559937251,
+        "epochs_trained": 9
+      },
+      {
+        "sequence_length": 20,
+        "units": 64,
+        "validation_pr_auc": 0.16116614329338658,
+        "epochs_trained": 9
+      },
+      {
+        "sequence_length": 30,
+        "units": 32,
+        "validation_pr_auc": 0.15055981495727885,
+        "epochs_trained": 9
+      },
+      {
+        "sequence_length": 30,
+        "units": 64,
+        "validation_pr_auc": 0.15808811295935274,
+        "epochs_trained": 9
+      },
+      {
+        "sequence_length": 60,
+        "units": 32,
+        "validation_pr_auc": 0.19983646613721423,
+        "epochs_trained": 9
+      },
+      {
+        "sequence_length": 60,
+        "units": 64,
+        "validation_pr_auc": 0.19648406901652762,
+        "epochs_trained": 8
+      }
+    ],
+    "decision_threshold": 0.4348459243774414
+  },
+  "model_comparison": {
+    "LSTM": {
+      "validation": {
+        "accuracy": 0.8359712230215828,
+        "precision": 0.3008130081300813,
+        "recall": 0.5692307692307692,
+        "f1": 0.39361702127659576,
+        "roc_auc": 0.7036874236874238,
+        "pr_auc": 0.19983646613721423,
+        "brier_score": 0.16124796867370605,
+        "decision_threshold": 0.4348459243774414,
+        "confusion_matrix": [
+          [
+            544,
+            86
+          ],
+          [
+            28,
+            37
+          ]
+        ],
+        "positive_count": 65,
+        "sample_count": 695
+      },
+      "test": {
+        "accuracy": 0.7617021276595745,
+        "precision": 0.12345679012345678,
+        "recall": 0.43478260869565216,
+        "f1": 0.19230769230769232,
+        "roc_auc": 0.6579798113083064,
+        "pr_auc": 0.10489448899160267,
+        "brier_score": 0.16019988059997559,
+        "decision_threshold": 0.4348459243774414,
+        "confusion_matrix": [
+          [
+            517,
+            142
+          ],
+          [
+            26,
+            20
+          ]
+        ],
+        "positive_count": 46,
+        "sample_count": 705
+      }
+    },
+    "Logistic Regression": {
+      "validation": {
+        "accuracy": 0.17841726618705037,
+        "precision": 0.10220125786163523,
+        "recall": 1.0,
+        "f1": 0.18544935805991442,
+        "roc_auc": 0.39663003663003665,
+        "pr_auc": 0.07176418808395149,
+        "brier_score": 0.7512147426605225,
+        "decision_threshold": 0.19122529029846191,
+        "confusion_matrix": [
+          [
+            59,
+            571
+          ],
+          [
+            0,
+            65
+          ]
+        ],
+        "positive_count": 65,
+        "sample_count": 695
+      },
+      "test": {
+        "accuracy": 0.06524822695035461,
+        "precision": 0.06524822695035461,
+        "recall": 1.0,
+        "f1": 0.12250332889480692,
+        "roc_auc": 0.6326449825163292,
+        "pr_auc": 0.10305267658697306,
+        "brier_score": 0.9285508394241333,
+        "decision_threshold": 0.19122529029846191,
+        "confusion_matrix": [
+          [
+            0,
+            659
+          ],
+          [
+            0,
+            46
+          ]
+        ],
+        "positive_count": 46,
+        "sample_count": 705
+      }
+    },
+    "Random Forest": {
+      "validation": {
+        "accuracy": 0.2805755395683453,
+        "precision": 0.10526315789473684,
+        "recall": 0.8923076923076924,
+        "f1": 0.18831168831168832,
+        "roc_auc": 0.5118925518925519,
+        "pr_auc": 0.09607487565609336,
+        "brier_score": 0.11001805116030505,
+        "decision_threshold": 0.19913296816883322,
+        "confusion_matrix": [
+          [
+            137,
+            493
+          ],
+          [
+            7,
+            58
+          ]
+        ],
+        "positive_count": 65,
+        "sample_count": 695
+      },
+      "test": {
+        "accuracy": 0.06808510638297872,
+        "precision": 0.06543385490753911,
+        "recall": 1.0,
+        "f1": 0.12283044058744993,
+        "roc_auc": 0.450616876690638,
+        "pr_auc": 0.07393392160010982,
+        "brier_score": 0.114334781726591,
+        "decision_threshold": 0.19913296816883322,
+        "confusion_matrix": [
+          [
+            2,
+            657
+          ],
+          [
+            0,
+            46
+          ]
+        ],
+        "positive_count": 46,
+        "sample_count": 705
+      }
+    }
+  },
+  "hmm": {
+    "components": 3,
+    "state_mapping": {
+      "Calm": 1,
+      "Volatile": 0,
+      "Bearish": 2
+    },
+    "transition_probabilities": {
+      "Calm": {
+        "Calm": 0.9531595747615906,
+        "Volatile": 0.046840425238409325,
+        "Bearish": 4.000414302248981e-28
+      },
+      "Volatile": {
+        "Calm": 0.028908956861211917,
+        "Volatile": 0.9539413689828133,
+        "Bearish": 0.017149674155974775
+      },
+      "Bearish": {
+        "Calm": 2.4340642061987586e-52,
+        "Volatile": 0.04264227159503961,
+        "Bearish": 0.9573577284049605
+      }
+    },
+    "state_characteristics": {
+      "Calm": {
+        "observations": 990,
+        "mean_daily_nifty_log_return": 0.000978305929714119,
+        "mean_7d_annualized_nifty_volatility": 0.09837797588690696,
+        "mean_nifty_drawdown": -0.021651150474549147,
+        "mean_india_vix": 15.365619231880991
+      },
+      "Volatile": {
+        "observations": 1630,
+        "mean_daily_nifty_log_return": 0.00016700523822622105,
+        "mean_7d_annualized_nifty_volatility": 0.1565970926944472,
+        "mean_nifty_drawdown": -0.10913899146573924,
+        "mean_india_vix": 19.76126567223915
+      },
+      "Bearish": {
+        "observations": 652,
+        "mean_daily_nifty_log_return": -0.00018826506794718606,
+        "mean_7d_annualized_nifty_volatility": 0.377298865632724,
+        "mean_nifty_drawdown": -0.28269884049222255,
+        "mean_india_vix": 36.92640679569568
+      },
+      "initialization_stability_ari": {
+        "seeds": [
+          42,
+          43,
+          44
+        ],
+        "pairwise_adjusted_rand_scores": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "test_regime_observations": {
+      "Calm": 355,
+      "Volatile": 293,
+      "Bearish": 57
+    },
+    "fit_end": "2021-02-10",
+    "artifact_state_mapping": {
+      "Calm": 0,
+      "Volatile": 1,
+      "Bearish": 2
+    },
+    "artifact_state_characteristics": {
+      "Calm": {
+        "observations": 1572,
+        "mean_daily_nifty_log_return": 0.0008998631610811189,
+        "mean_7d_annualized_nifty_volatility": 0.09023259736804587,
+        "mean_nifty_drawdown": -0.02149565572791818,
+        "mean_india_vix": 14.35538017407012
+      },
+      "Volatile": {
+        "observations": 2307,
+        "mean_daily_nifty_log_return": 0.0001146532001116939,
+        "mean_7d_annualized_nifty_volatility": 0.15062362653039366,
+        "mean_nifty_drawdown": -0.09317125664725942,
+        "mean_india_vix": 18.526005736099872
+      },
+      "Bearish": {
+        "observations": 823,
+        "mean_daily_nifty_log_return": -4.0521045922313465e-05,
+        "mean_7d_annualized_nifty_volatility": 0.34860103333332804,
+        "mean_nifty_drawdown": -0.24923066594988963,
+        "mean_india_vix": 33.93593956700449
+      },
+      "initialization_stability_ari": {
+        "seeds": [
+          42,
+          43,
+          44
+        ],
+        "pairwise_adjusted_rand_scores": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    "artifact_fit_end": "2026-11-27",
+    "historical_states_use_causal_forward_filter": true
+  },
+  "backtest": {
+    "transaction_cost_bps_one_way": 10,
+    "strategy": {
+      "cumulative_return": 0.3231689280819954,
+      "max_drawdown": -0.08837423607141237,
+      "sharpe_ratio": 1.2244963080927833,
+      "annualized_volatility": 0.0846922857129147,
+      "observations": 705
+    },
+    "fixed_60_20_20_benchmark": {
+      "cumulative_return": 0.3389097173223701,
+      "max_drawdown": -0.11775688444129073,
+      "sharpe_ratio": 1.0760409527907013,
+      "annualized_volatility": 0.10178851566505707,
+      "observations": 705
+    },
+    "bearish_regime_test": {
+      "strategy": {
+        "cumulative_return": 0.04979209906584314,
+        "max_drawdown": -0.06938378124575617,
+        "sharpe_ratio": 1.7354629278411535,
+        "annualized_volatility": 0.12854273434153618,
+        "observations": 57
+      },
+      "fixed_60_20_20_benchmark": {
+        "cumulative_return": 0.10976514106221802,
+        "max_drawdown": -0.08015216111905732,
+        "sharpe_ratio": 2.707380399342751,
+        "annualized_volatility": 0.17585528455164692,
+        "observations": 57
+      }
+    }
+  },
+  "warnings": [
+    "Research prototype; historical results do not guarantee future performance.",
+    "The three-asset backtest uses NIFTY returns, GoldBeES when available (otherwise gold futures converted with USD/INR), and gilt ETF returns (otherwise historical gilt-fund NAV); proxy changes and source-specific tracking differences limit comparability.",
+    "Backtest uses daily close observations and a fixed 10 bps one-way turnover cost; taxes, liquidity, slippage, and fund tracking error are not modeled.",
+    "The backtest starts with a 60/20/20 portfolio and uses close-t signals for the next close-to-close return.",
+    "The class-weighted sigmoid output is an uncalibrated risk score; Brier score and a test calibration curve are reported.",
+    "The final deployment artifacts are refit on all labeled observations through the latest available year after the untouched test evaluation. Reported test metrics are from the pre-refit model; in-sample historical scores from the full-data artifact are not independent performance evidence.",
+    "The preprocessing audit marked isolated extreme reversal records as unavailable without changing source files: {'goldbees.csv': 2, 'niftybees.csv': 2}.",
+    "At the validation-selected F2 threshold, the LSTM produced 142 false elevated-risk alerts on the unseen test period; precision is limited.",
+    "The model-adjusted strategy had lower cumulative return than the fixed 60/20/20 benchmark on this unseen test period."
+  ]
+}

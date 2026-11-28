@@ -19,6 +19,7 @@ class RiskLineChartView @JvmOverloads constructor(
 ) : View(context, attrs, defStyleAttr) {
 
     private var dataPoints: List<RiskPoint> = emptyList()
+    private var riskThreshold = 50f
 
     private val linePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.STROKE
@@ -92,8 +93,9 @@ class RiskLineChartView @JvmOverloads constructor(
         tooltipBgPaint.color = ContextCompat.getColor(context, R.color.surface_elevated_dark)
     }
 
-    fun setData(pts: List<RiskPoint>?) {
+    fun setData(pts: List<RiskPoint>?, threshold: Float = 50f) {
         dataPoints = pts ?: emptyList()
+        riskThreshold = threshold.coerceIn(0f, 100f)
         touchX = null
         selectedPoint = null
         invalidate()
@@ -154,10 +156,14 @@ class RiskLineChartView @JvmOverloads constructor(
             canvas.drawText("${lvl.toInt()}%", paddingLeft - 12f, y + 8f, textPaint)
         }
 
-        // 50% High Risk Threshold Line
-        val highThresholdY = paddingTop + chartHeight * 0.5f
+        val highThresholdY = paddingTop + chartHeight * (1f - riskThreshold / 100f)
         canvas.drawLine(paddingLeft, highThresholdY, w - paddingRight, highThresholdY, thresholdPaint)
-        canvas.drawText("50% Threshold", w - paddingRight - 10f, highThresholdY - 8f, thresholdTextPaint)
+        canvas.drawText(
+            String.format(Locale.US, "%.1f%% Threshold", riskThreshold),
+            w - paddingRight - 10f,
+            highThresholdY - 8f,
+            thresholdTextPaint
+        )
 
         if (dataPoints.isEmpty()) {
             val emptyText = context.getString(R.string.chart_empty_risk)

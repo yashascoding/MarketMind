@@ -30,7 +30,7 @@ class SettingsDataStore(private val context: Context) {
     }
 
     val demoMode: Flow<Boolean> = context.settingsDataStore.data.map { preferences ->
-        preferences[KEY_DEMO_MODE] ?: true
+        preferences[KEY_DEMO_MODE] ?: false
     }
 
     suspend fun saveBaseUrl(url: String) {

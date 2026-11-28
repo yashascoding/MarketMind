@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marketmind.data.repository.MarketRepository
 import com.example.marketmind.data.repository.MarketRepositoryImpl
-import com.example.marketmind.data.repository.MockDataProvider
 import com.example.marketmind.domain.model.AnalyticsData
 import com.example.marketmind.ui.common.UiState
 import com.example.marketmind.ui.views.PerformancePoint
@@ -43,15 +42,18 @@ class AnalyticsViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun filterByPeriod(period: String) {
-        val current = rawData ?: MockDataProvider.getMockAnalytics(period)
+        val current = rawData ?: return
         val filteredPoints = filterPointsByPeriod(current.performancePoints, period)
+        if (filteredPoints.isEmpty()) {
+            _analyticsState.value = UiState.Empty
+            return
+        }
         val updatedData = current.copy(performancePoints = filteredPoints)
         _analyticsState.value = UiState.Success(updatedData)
     }
 
     private fun filterPointsByPeriod(points: List<PerformancePoint>, period: String): List<PerformancePoint> {
-        if (points.isEmpty()) return MockDataProvider.getMockAnalytics(period).performancePoints
-        val now = System.currentTimeMillis()
+        if (points.isEmpty()) return emptyList()
         val dayMs = 86_400_000L
         val maxDays = when (period) {
             "1M" -> 30
@@ -60,9 +62,9 @@ class AnalyticsViewModel(application: Application) : AndroidViewModel(applicatio
             "1Y" -> 365
             else -> 3650
         }
-        val cutoff = now - maxDays * dayMs
-        val filtered = points.filter { it.timestamp >= cutoff }
-        return if (filtered.isEmpty()) MockDataProvider.getMockAnalytics(period).performancePoints else filtered
+        val latestTimestamp = points.maxOf { it.timestamp }
+        val cutoff = latestTimestamp - maxDays * dayMs
+        return points.filter { it.timestamp >= cutoff }
     }
 
     private fun loadData() {

@@ -1,0 +1,10 @@
+{
+  "name": "elevated_risk",
+  "forecast_horizon_trading_sessions": 10,
+  "rule": "Positive if future 10-session maximum drawdown <= -5% OR future 10-session annualized realized volatility >= 30%.",
+  "drawdown_threshold": -0.05,
+  "annualized_volatility_threshold": 0.3,
+  "train_positive_rate": 0.2232919254658385,
+  "validation_positive_rate": 0.09352517985611511,
+  "test_positive_rate": 0.06524822695035461
+}

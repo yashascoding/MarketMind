@@ -1,0 +1,671 @@
+{
+  "datasets": [
+    {
+      "file": "brent.csv",
+      "rows": 4813,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-07-30",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "dxy.csv",
+      "rows": 5010,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-02",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "gilt_etf.csv",
+      "rows": 1850,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2018-05-11",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "gilt_fund.csv",
+      "rows": 2943,
+      "columns": [
+        "date",
+        "nav"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "nav": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "nav": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2006-04-03",
+      "date_end": "2018-06-01"
+    },
+    {
+      "file": "gold.csv",
+      "rows": 5009,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-02",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "goldbees.csv",
+      "rows": 4411,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 2,
+      "date_start": "2009-01-02",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "india_vix.csv",
+      "rows": 4590,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2008-03-03",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "nifty.csv",
+      "rows": 4709,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-09-17",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "niftybees.csv",
+      "rows": 4412,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 2,
+      "date_start": "2009-01-02",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "nse_gsec_10y_clean_price.csv",
+      "rows": 2202,
+      "columns": [
+        "date",
+        "Open",
+        "High",
+        "Low",
+        "Close"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Open": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Close": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Open": 3,
+        "High": 3,
+        "Low": 3,
+        "Close": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2018-01-01",
+      "date_end": "2026-11-26"
+    },
+    {
+      "file": "sp500.csv",
+      "rows": 5007,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-03",
+      "date_end": "2026-11-25"
+    },
+    {
+      "file": "tlt.csv",
+      "rows": 5007,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-03",
+      "date_end": "2026-11-25"
+    },
+    {
+      "file": "us_10y.csv",
+      "rows": 5006,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-03",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "us_vix.csv",
+      "rows": 5011,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-03",
+      "date_end": "2026-11-27"
+    },
+    {
+      "file": "usdinr.csv",
+      "rows": 5161,
+      "columns": [
+        "date",
+        "Adj Close",
+        "Close",
+        "High",
+        "Low",
+        "Open",
+        "Volume"
+      ],
+      "dtypes": {
+        "date": "datetime64[ns]",
+        "Adj Close": "float64",
+        "Close": "float64",
+        "High": "float64",
+        "Low": "float64",
+        "Open": "float64",
+        "Volume": "float64"
+      },
+      "missing_by_column": {
+        "date": 0,
+        "Adj Close": 0,
+        "Close": 0,
+        "High": 0,
+        "Low": 0,
+        "Open": 0,
+        "Volume": 0
+      },
+      "duplicate_dates_removed": 0,
+      "duplicate_records": 0,
+      "isolated_reversal_prices_removed": 0,
+      "date_start": "2007-01-01",
+      "date_end": "2026-11-27"
+    }
+  ],
+  "model_inputs": {
+    "brent": "data/raw/brent.csv (Close price series)",
+    "dxy": "data/raw/dxy.csv (Close price series)",
+    "gilt_etf": "data/raw/gilt_etf.csv (Adj Close price series)",
+    "gilt_fund": "data/raw/gilt_fund.csv (nav price series)",
+    "gold": "data/raw/gold.csv (Close price series)",
+    "goldbees": "data/raw/goldbees.csv (Adj Close price series)",
+    "india_vix": "data/raw/india_vix.csv (Close price series)",
+    "nifty": "data/raw/nifty.csv (Close price series)",
+    "niftybees": "data/raw/niftybees.csv (Adj Close price series)",
+    "nse_gsec_10y": "data/raw/nse_gsec_10y_clean_price.csv (Close price series)",
+    "sp500": "data/raw/sp500.csv (Close price series)",
+    "tlt": "data/raw/tlt.csv (Adj Close price series)",
+    "us_10y": "data/raw/us_10y.csv (Close price series)",
+    "us_vix": "data/raw/us_vix.csv (Close price series)",
+    "usdinr": "data/raw/usdinr.csv (Close price series)"
+  },
+  "alignment": {
+    "method": "NIFTY trading dates are the master calendar. Other source prices are backward-as-of aligned for at most 7 calendar days; pre-inception, stale, and unavailable observations remain missing.",
+    "aligned_rows": 4709,
+    "date_start": "2007-09-17",
+    "date_end": "2026-11-27",
+    "duplicate_dates": 0,
+    "source_coverage": {
+      "brent": {
+        "file": "brent.csv",
+        "usable_nifty_dates": 4703,
+        "coverage_fraction": 0.998725844128265,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "dxy": {
+        "file": "dxy.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "gilt_etf": {
+        "file": "gilt_etf.csv",
+        "usable_nifty_dates": 1999,
+        "coverage_fraction": 0.4245062645997027,
+        "first_aligned_date": "2018-05-11",
+        "last_aligned_date": "2026-11-27"
+      },
+      "gilt_fund": {
+        "file": "gilt_fund.csv",
+        "usable_nifty_dates": 2623,
+        "coverage_fraction": 0.5570184752601401,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2018-06-08"
+      },
+      "gold": {
+        "file": "gold.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "goldbees": {
+        "file": "goldbees.csv",
+        "usable_nifty_dates": 4392,
+        "coverage_fraction": 0.9326820981100021,
+        "first_aligned_date": "2009-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "india_vix": {
+        "file": "india_vix.csv",
+        "usable_nifty_dates": 4593,
+        "coverage_fraction": 0.9753663198131238,
+        "first_aligned_date": "2008-03-03",
+        "last_aligned_date": "2026-11-27"
+      },
+      "nifty": {
+        "file": "nifty.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "niftybees": {
+        "file": "niftybees.csv",
+        "usable_nifty_dates": 4392,
+        "coverage_fraction": 0.9326820981100021,
+        "first_aligned_date": "2009-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "nse_gsec_10y": {
+        "file": "nse_gsec_10y_clean_price.csv",
+        "usable_nifty_dates": 2194,
+        "coverage_fraction": 0.4659163304310894,
+        "first_aligned_date": "2018-01-02",
+        "last_aligned_date": "2026-11-27"
+      },
+      "sp500": {
+        "file": "sp500.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "tlt": {
+        "file": "tlt.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "us_10y": {
+        "file": "us_10y.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "us_vix": {
+        "file": "us_vix.csv",
+        "usable_nifty_dates": 4709,
+        "coverage_fraction": 1.0,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      },
+      "usdinr": {
+        "file": "usdinr.csv",
+        "usable_nifty_dates": 4698,
+        "coverage_fraction": 0.9976640475684859,
+        "first_aligned_date": "2007-09-17",
+        "last_aligned_date": "2026-11-27"
+      }
+    },
+    "incomplete_master_dates_dropped": false
+  },
+  "decisions": [
+    "Original data/raw CSVs are read-only inputs; preprocessing writes separate reports and artifacts.",
+    "All 15 local CSVs are model inputs. NIFTY Close defines the target calendar and labels; other sources are retained as independent features even when their histories overlap or have different start/end dates.",
+    "Duplicate source dates keep the final source row; invalid and nonpositive prices remain unavailable rather than being fabricated. Adjusted Close is used for ETF datasets where supplied; gilt_fund uses NAV.",
+    "One to three consecutive source observations are marked unavailable only when each moves at least 80% from the preceding price and the following observation is within 10% of that preceding price. Counts are included in the dataset audit; original CSVs are unchanged.",
+    "Cross-market quotes are backward-as-of aligned only when no more than seven calendar days old. No values are extended before a source begins or after its latest fresh observation.",
+    "Foreign-market closes, USD/INR, and historical gilt-fund NAV features are lagged by one NIFTY session so that information published after the Indian close cannot leak into same-day predictions.",
+    "Missing engineered features are median-imputed with missingness indicators fitted on training dates only; the same saved imputer and scaler are used at inference.",
+    "Returns, 7/30-session volatility, 50/200-session moving-average ratios, drawdowns, and NIFTY cross-asset correlations are engineered for every source; full trailing windows are required and never backfilled.",
+    "HMM features include NIFTY return, volatility and drawdown plus cross-asset aggregate return and volatility from all available sources.",
+    "The 10-session target is elevated if the future path's maximum drawdown is at most -5% OR future annualized realized volatility is at least 30%.",
+    "Sequences are labeled at their last observed close and forecast the next ten sessions; chronological splits purge ten labels at each boundary.",
+    "All dates in the NIFTY source timeline from 2007 through 2026 are retained; chronological partitions remain separate, with test dates held out for final evaluation.",
+    "Feature imputers and scalers are fit on the training partition only; validation selects hyperparameters and thresholds, and test is evaluated once.",
+    "Backtest allocations use the signal available at close t for close-to-close return t+1, with 10 bps applied to one-way turnover."
+  ]
+}

@@ -19,13 +19,13 @@ class SettingsViewModel(application: Application) : AndroidViewModel(application
     private val repository: MarketRepository = MarketRepositoryImpl(application)
 
     val baseUrl: StateFlow<String> = settingsDataStore.baseUrl
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), SettingsDataStore.DEFAULT_BASE_URL)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), "")
 
     val autoRefresh: StateFlow<Boolean> = settingsDataStore.autoRefresh
         .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     val demoMode: StateFlow<Boolean> = settingsDataStore.demoMode
-        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), true)
+        .stateIn(viewModelScope, SharingStarted.WhileSubscribed(5000), false)
 
     private val _connectionResult = MutableStateFlow<String?>(null)
     val connectionResult: StateFlow<String?> = _connectionResult.asStateFlow()

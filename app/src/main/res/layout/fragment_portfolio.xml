@@ -93,52 +93,74 @@
                         <LinearLayout
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
-                            android:orientation="horizontal"
+                            android:orientation="vertical"
                             android:padding="@dimen/spacing_16dp">
 
                             <LinearLayout
-                                android:layout_width="0dp"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
+                                android:orientation="horizontal">
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:text="PORTFOLIO STATE"
-                                    android:textAppearance="?attr/textAppearanceLabelSmall"
-                                    android:textColor="@color/text_muted_dark" />
-                                <TextView
-                                    android:id="@+id/tv_portfolio_state"
-                                    android:layout_width="wrap_content"
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/portfolio_state_label"
+                                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                                        android:textColor="@color/text_muted_dark" />
+
+                                    <TextView
+                                        android:id="@+id/tv_portfolio_state"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/spacing_4dp"
+                                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                                        android:textColor="@color/accent_cyan"
+                                        android:textStyle="bold"
+                                        tools:text="Moderate Risk" />
+                                </LinearLayout>
+
+                                <LinearLayout
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="Balanced"
-                                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="@color/accent_cyan"
-                                    android:textStyle="bold" />
+                                    android:layout_weight="1"
+                                    android:orientation="vertical">
+
+                                    <TextView
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:text="@string/portfolio_largest_shift"
+                                        android:textAppearance="?attr/textAppearanceLabelSmall"
+                                        android:textColor="@color/text_muted_dark" />
+
+                                    <TextView
+                                        android:id="@+id/tv_major_shift"
+                                        android:layout_width="wrap_content"
+                                        android:layout_height="wrap_content"
+                                        android:layout_marginTop="@dimen/spacing_4dp"
+                                        android:textAppearance="?attr/textAppearanceTitleMedium"
+                                        android:textColor="@color/market_negative"
+                                        android:textStyle="bold"
+                                        tools:text="-10.0%" />
+                                </LinearLayout>
                             </LinearLayout>
 
-                            <LinearLayout
-                                android:layout_width="0dp"
+                            <TextView
+                                android:id="@+id/tv_adjustment_summary"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:text="MAJOR SHIFT"
-                                    android:textAppearance="?attr/textAppearanceLabelSmall"
-                                    android:textColor="@color/text_muted_dark" />
-                                <TextView
-                                    android:id="@+id/tv_major_shift"
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_marginTop="4dp"
-                                    android:text="-10.0%"
-                                    android:textAppearance="?attr/textAppearanceTitleMedium"
-                                    android:textColor="@color/market_negative"
-                                    android:textStyle="bold" />
-                            </LinearLayout>
+                                android:layout_marginTop="@dimen/spacing_12dp"
+                                android:background="@drawable/bg_chip"
+                                android:paddingHorizontal="@dimen/spacing_12dp"
+                                android:paddingVertical="@dimen/spacing_8dp"
+                                android:textAppearance="?attr/textAppearanceBodySmall"
+                                android:textColor="@color/text_secondary_dark"
+                                tools:text="3 allocations differ from the model target" />
                         </LinearLayout>
                     </com.google.android.material.card.MaterialCardView>
 

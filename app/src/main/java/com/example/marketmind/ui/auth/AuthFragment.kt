@@ -13,12 +13,28 @@ import android.view.animation.DecelerateInterpolator
 import android.view.animation.OvershootInterpolator
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavOptions
 import androidx.navigation.fragment.findNavController
 import androidx.transition.AutoTransition
 import androidx.transition.TransitionManager
+import androidx.credentials.CredentialManager
+import androidx.credentials.CustomCredential
+import androidx.credentials.GetCredentialRequest
+import androidx.credentials.exceptions.GetCredentialCancellationException
+import androidx.credentials.exceptions.GetCredentialException
+import com.google.android.libraries.identity.googleid.GetGoogleIdOption
+import com.google.android.libraries.identity.googleid.GoogleIdTokenCredential
+import com.google.android.libraries.identity.googleid.GoogleIdTokenParsingException
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthException
+import com.google.firebase.auth.GoogleAuthProvider
+import com.google.firebase.auth.UserProfileChangeRequest
 import com.example.marketmind.R
+import com.example.marketmind.data.cache.SettingsDataStore
 import com.example.marketmind.databinding.FragmentAuthBinding
+import kotlinx.coroutines.launch
 
 class AuthFragment : Fragment() {
 
@@ -42,7 +58,9 @@ class AuthFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         binding.btnAuthSwitch.setOnClickListener { setSignUpMode(!isSignUp) }
         binding.btnAuthSubmit.setOnClickListener { submitCredentials() }
+        binding.btnGoogleSignIn.setOnClickListener { signInWithGoogle() }
         binding.btnDemoMode.setOnClickListener { openDemoDashboard() }
+        getFirebaseAuth()?.currentUser?.let { navigateToDashboard() }
         if (!hasPlayedEntrance && animationsEnabled()) {
             playEntranceAnimation()
             hasPlayedEntrance = true
@@ -97,10 +115,205 @@ class AuthFragment : Fragment() {
             return
         }
 
+        val auth = getFirebaseAuth()
+        if (auth == null) {
+            showAuthMessage(R.string.auth_firebase_setup_required)
+            return
+        }
+
+        val name = binding.etName.text?.toString()?.trim().orEmpty()
+        val email = binding.etEmail.text?.toString()?.trim().orEmpty()
+        val password = binding.etPassword.text?.toString().orEmpty()
+        val task = if (isSignUp) {
+            auth.createUserWithEmailAndPassword(email, password)
+        } else {
+            auth.signInWithEmailAndPassword(email, password)
+        }
+
+        binding.tvAuthMessage.visibility = View.GONE
+        setSubmitting(true)
+        task.addOnCompleteListener { result ->
+            if (_binding == null) return@addOnCompleteListener
+            if (!result.isSuccessful) {
+                setSubmitting(false)
+                showAuthMessage(authErrorMessage(result.exception))
+                return@addOnCompleteListener
+            }
+
+            if (isSignUp) {
+                val user = auth.currentUser
+                if (user == null) {
+                    setSubmitting(false)
+                    showAuthMessage(R.string.auth_error_generic)
+                    return@addOnCompleteListener
+                }
+                val profile = UserProfileChangeRequest.Builder()
+                    .setDisplayName(name)
+                    .build()
+                user.updateProfile(profile).addOnCompleteListener { profileResult ->
+                    if (_binding == null) return@addOnCompleteListener
+                    if (!profileResult.isSuccessful) {
+                        Toast.makeText(
+                            requireContext(),
+                            R.string.auth_profile_name_update_failed,
+                            Toast.LENGTH_LONG
+                        ).show()
+                    }
+                    finishAuthentication()
+                }
+            } else {
+                finishAuthentication()
+            }
+        }
+    }
+
+    private fun signInWithGoogle() {
+        val auth = getFirebaseAuth()
+        if (auth == null) {
+            showAuthMessage(R.string.auth_firebase_setup_required)
+            return
+        }
+
+        val webClientIdResource = resources.getIdentifier(
+            "default_web_client_id",
+            "string",
+            requireContext().packageName
+        )
+        if (webClientIdResource == 0 || getString(webClientIdResource).isBlank()) {
+            showAuthMessage(R.string.auth_google_setup_required)
+            return
+        }
+
+        val context = requireContext()
+        val webClientId = getString(webClientIdResource)
+        binding.tvAuthMessage.visibility = View.GONE
+        setSubmitting(true, googleSignIn = true)
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            val credential = try {
+                val googleIdOption = GetGoogleIdOption.Builder()
+                    .setServerClientId(webClientId)
+                    .setFilterByAuthorizedAccounts(false)
+                    .build()
+                val request = GetCredentialRequest.Builder()
+                    .addCredentialOption(googleIdOption)
+                    .build()
+                CredentialManager.create(context).getCredential(context, request).credential
+            } catch (_: GetCredentialCancellationException) {
+                if (_binding != null) setSubmitting(false)
+                return@launch
+            } catch (_: GetCredentialException) {
+                if (_binding == null) return@launch
+                setSubmitting(false)
+                showAuthMessage(R.string.auth_google_error)
+                return@launch
+            }
+
+            if (_binding == null) return@launch
+            if (credential !is CustomCredential ||
+                credential.type != GoogleIdTokenCredential.TYPE_GOOGLE_ID_TOKEN_CREDENTIAL
+            ) {
+                setSubmitting(false)
+                showAuthMessage(R.string.auth_google_error)
+                return@launch
+            }
+
+            val idToken = try {
+                GoogleIdTokenCredential.createFrom(credential.data).idToken
+            } catch (_: GoogleIdTokenParsingException) {
+                setSubmitting(false)
+                showAuthMessage(R.string.auth_google_error)
+                return@launch
+            }
+
+            auth.signInWithCredential(GoogleAuthProvider.getCredential(idToken, null))
+                .addOnCompleteListener { result ->
+                    if (_binding == null) return@addOnCompleteListener
+                    if (!result.isSuccessful) {
+                        setSubmitting(false)
+                        showAuthMessage(
+                            authErrorMessage(result.exception, googleSignIn = true)
+                        )
+                        return@addOnCompleteListener
+                    }
+                    finishAuthentication()
+                }
+        }
+    }
+
+    private fun getFirebaseAuth(): FirebaseAuth? {
+        val app = FirebaseApp.getApps(requireContext())
+            .firstOrNull { it.name == FirebaseApp.DEFAULT_APP_NAME }
+            ?: return null
+        return FirebaseAuth.getInstance(app)
+    }
+
+    private fun authErrorMessage(error: Exception?, googleSignIn: Boolean = false): Int {
+        return when ((error as? FirebaseAuthException)?.errorCode) {
+            "ERROR_INVALID_EMAIL" -> R.string.auth_error_email_invalid
+            "ERROR_INVALID_CREDENTIAL",
+            "ERROR_WRONG_PASSWORD",
+            "ERROR_USER_NOT_FOUND" -> R.string.auth_error_credentials
+            "ERROR_EMAIL_ALREADY_IN_USE" -> R.string.auth_error_email_in_use
+            "ERROR_WEAK_PASSWORD" -> R.string.auth_error_password_weak
+            "ERROR_NETWORK_REQUEST_FAILED" -> R.string.auth_error_network
+            "ERROR_TOO_MANY_REQUESTS" -> R.string.auth_error_rate_limited
+            "ERROR_OPERATION_NOT_ALLOWED" -> if (googleSignIn) {
+                R.string.auth_google_provider_disabled
+            } else {
+                R.string.auth_error_provider_disabled
+            }
+            else -> R.string.auth_error_generic
+        }
+    }
+
+    private fun setSubmitting(submitting: Boolean, googleSignIn: Boolean = false) {
+        binding.btnAuthSubmit.isEnabled = !submitting
+        binding.btnGoogleSignIn.isEnabled = !submitting
+        binding.btnAuthSwitch.isEnabled = !submitting
+        binding.btnDemoMode.isEnabled = !submitting
+        binding.etName.isEnabled = !submitting
+        binding.etEmail.isEnabled = !submitting
+        binding.etPassword.isEnabled = !submitting
+        binding.etConfirmPassword.isEnabled = !submitting
+        binding.btnAuthSubmit.setText(
+            when {
+                submitting && googleSignIn && isSignUp -> R.string.auth_signup_submit
+                submitting && googleSignIn -> R.string.auth_login_action
+                submitting && isSignUp -> R.string.auth_creating_account
+                submitting -> R.string.auth_signing_in
+                isSignUp -> R.string.auth_signup_submit
+                else -> R.string.auth_login_action
+            }
+        )
+        binding.btnGoogleSignIn.setText(
+            if (submitting && googleSignIn) {
+                R.string.auth_google_signing_in
+            } else {
+                R.string.auth_google_action
+            }
+        )
+    }
+
+    private fun showAuthMessage(messageId: Int) {
+        binding.tvAuthMessage.setText(messageId)
+        binding.tvAuthMessage.visibility = View.VISIBLE
+    }
+
+    private fun finishAuthentication() {
         binding.etPassword.text?.clear()
         binding.etConfirmPassword.text?.clear()
-        binding.tvAuthMessage.setText(R.string.auth_unavailable_message)
-        binding.tvAuthMessage.visibility = View.VISIBLE
+        setSubmitting(false)
+        navigateToDashboard()
+    }
+
+    private fun navigateToDashboard() {
+        if (_binding == null || !isAdded) return
+        val options = NavOptions.Builder()
+            .setPopUpTo(R.id.navigation_auth, true)
+            .setLaunchSingleTop(true)
+            .build()
+        findNavController().navigate(R.id.action_auth_to_dashboard, null, options)
     }
 
     private fun validateInputs(): Boolean {
@@ -140,11 +353,11 @@ class AuthFragment : Fragment() {
     }
 
     private fun openDemoDashboard() {
-        Toast.makeText(requireContext(), R.string.auth_demo_toast, Toast.LENGTH_SHORT).show()
-        val options = NavOptions.Builder()
-            .setPopUpTo(R.id.navigation_auth, true)
-            .build()
-        findNavController().navigate(R.id.action_auth_to_dashboard, null, options)
+        viewLifecycleOwner.lifecycleScope.launch {
+            SettingsDataStore(requireContext()).saveDemoMode(true)
+            Toast.makeText(requireContext(), R.string.auth_demo_toast, Toast.LENGTH_SHORT).show()
+            navigateToDashboard()
+        }
     }
 
     private fun playEntranceAnimation() {

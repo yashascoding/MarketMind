@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -17,6 +18,7 @@ import com.example.marketmind.ui.adapters.RiskMetricAdapter
 import com.example.marketmind.ui.common.HapticFeedbackUtil
 import com.example.marketmind.ui.common.UiState
 import kotlinx.coroutines.launch
+import java.util.Locale
 
 class AnalyticsFragment : Fragment() {
 
@@ -115,12 +117,7 @@ class AnalyticsFragment : Fragment() {
                 binding.emptyView.containerEmpty.visibility = View.GONE
                 binding.scrollContent.visibility = View.VISIBLE
 
-                val data = state.data
-                binding.chartPerformance.setData(data.performancePoints)
-                riskMetricAdapter.submitList(data.riskMetrics)
-                binding.viewRegimeTimeline.setSegments(data.regimeSegments)
-                binding.tvAnalyticsInsight.text =
-                    data.insights ?: "Market conditions remain stable; monitor downside risk and rebalance periodically."
+                renderAnalytics(state.data)
             }
             is UiState.Empty -> {
                 binding.scrollContent.visibility = View.GONE
@@ -131,11 +128,10 @@ class AnalyticsFragment : Fragment() {
             is UiState.Error -> {
                 val cached = state.cachedData as? AnalyticsData
                 if (cached != null && (cached.performancePoints.isNotEmpty() || cached.riskMetrics.isNotEmpty())) {
-                    binding.chartPerformance.setData(cached.performancePoints)
-                    riskMetricAdapter.submitList(cached.riskMetrics)
-                    binding.viewRegimeTimeline.setSegments(cached.regimeSegments)
-                    binding.tvAnalyticsInsight.text =
-                        cached.insights ?: "Cached analytics: monitor the current risk-adjusted performance closely."
+                    binding.errorView.containerError.visibility = View.GONE
+                    binding.emptyView.containerEmpty.visibility = View.GONE
+                    binding.scrollContent.visibility = View.VISIBLE
+                    renderAnalytics(cached)
                 } else {
                     binding.scrollContent.visibility = View.GONE
                     binding.emptyView.containerEmpty.visibility = View.VISIBLE
@@ -144,6 +140,52 @@ class AnalyticsFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun renderAnalytics(data: AnalyticsData) {
+        binding.chartPerformance.setData(data.performancePoints)
+        riskMetricAdapter.submitList(data.riskMetrics)
+        binding.viewRegimeTimeline.setSegments(data.regimeSegments)
+        binding.tvAnalyticsInsight.text =
+            data.insights?.takeIf { it.isNotBlank() }
+                ?: getString(R.string.analytics_insight_unavailable)
+        updatePerformanceSummary(data)
+    }
+
+    private fun updatePerformanceSummary(data: AnalyticsData) {
+        val latest = data.performancePoints.maxByOrNull { it.timestamp }
+        if (latest == null) {
+            val unavailable = getString(R.string.value_unavailable)
+            binding.tvPeriodPortfolioReturn.text = unavailable
+            binding.tvPeriodBenchmarkReturn.text = unavailable
+            binding.tvPeriodRelativeReturn.text = unavailable
+            val unavailableColor =
+                ContextCompat.getColor(requireContext(), R.color.text_secondary_dark)
+            binding.tvPeriodPortfolioReturn.setTextColor(unavailableColor)
+            binding.tvPeriodBenchmarkReturn.setTextColor(unavailableColor)
+            binding.tvPeriodRelativeReturn.setTextColor(unavailableColor)
+            return
+        }
+
+        val relativeReturn = latest.portfolioReturn - latest.benchmarkReturn
+        binding.tvPeriodPortfolioReturn.text = formatReturn(latest.portfolioReturn)
+        binding.tvPeriodBenchmarkReturn.text = formatReturn(latest.benchmarkReturn)
+        binding.tvPeriodRelativeReturn.text = formatReturn(relativeReturn)
+        binding.tvPeriodPortfolioReturn.setTextColor(returnColor(latest.portfolioReturn))
+        binding.tvPeriodBenchmarkReturn.setTextColor(returnColor(latest.benchmarkReturn))
+        binding.tvPeriodRelativeReturn.setTextColor(returnColor(relativeReturn))
+    }
+
+    private fun formatReturn(value: Float): String =
+        String.format(Locale.US, "%+.1f%%", value)
+
+    private fun returnColor(value: Float): Int {
+        val color = when {
+            value > 0f -> R.color.market_positive
+            value < 0f -> R.color.market_negative
+            else -> R.color.market_neutral
+        }
+        return ContextCompat.getColor(requireContext(), color)
     }
 
     override fun onDestroyView() {

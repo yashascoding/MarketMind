@@ -9,6 +9,7 @@ data class RiskData(
     val category: String,   // Low, Moderate, High, Critical
     val explanation: String?,
     val asOfTimestamp: String,
+    val threshold: Float = 50f,
     val history: List<RiskPoint> = emptyList()
 )
 

@@ -10,6 +10,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.navigation.NavOptions
+import androidx.navigation.fragment.findNavController
+import com.google.firebase.FirebaseApp
+import com.google.firebase.auth.FirebaseAuth
+import com.example.marketmind.R
 import com.example.marketmind.databinding.FragmentSettingsBinding
 import com.example.marketmind.ui.common.HapticFeedbackUtil
 import kotlinx.coroutines.launch
@@ -34,6 +39,8 @@ class SettingsFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupListeners()
+        binding.btnSignOut.visibility =
+            if (getFirebaseAuth()?.currentUser != null) View.VISIBLE else View.GONE
         observeViewModel()
     }
 
@@ -62,6 +69,24 @@ class SettingsFragment : Fragment() {
         binding.switchDemoMode.setOnCheckedChangeListener { _, isChecked ->
             viewModel.saveDemoMode(isChecked)
         }
+
+        binding.btnSignOut.setOnClickListener {
+            val auth = getFirebaseAuth() ?: return@setOnClickListener
+            if (auth.currentUser == null) return@setOnClickListener
+            auth.signOut()
+            val options = NavOptions.Builder()
+                .setPopUpTo(R.id.navigation_dashboard, true)
+                .setLaunchSingleTop(true)
+                .build()
+            findNavController().navigate(R.id.navigation_auth, null, options)
+        }
+    }
+
+    private fun getFirebaseAuth(): FirebaseAuth? {
+        val app = FirebaseApp.getApps(requireContext())
+            .firstOrNull { it.name == FirebaseApp.DEFAULT_APP_NAME }
+            ?: return null
+        return FirebaseAuth.getInstance(app)
     }
 
     private fun observeViewModel() {
@@ -69,7 +94,7 @@ class SettingsFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
                 launch {
                     viewModel.baseUrl.collect { url ->
-                        if (binding.etBaseUrl.text.toString().isEmpty()) {
+                        if (!binding.etBaseUrl.hasFocus()) {
                             binding.etBaseUrl.setText(url)
                         }
                     }

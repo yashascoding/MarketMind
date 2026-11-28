@@ -8,6 +8,7 @@ import com.google.gson.annotations.SerializedName
  */
 data class RiskDto(
     @SerializedName("risk_probability") val riskProbability: Float? = null,
+    @SerializedName("risk_threshold") val riskThreshold: Float? = null,
     @SerializedName("risk_level") val riskLevel: String? = null,
     @SerializedName("explanation") val explanation: String? = null,
     @SerializedName("timestamp") val timestamp: String? = null,
@@ -36,7 +37,8 @@ data class PortfolioRecommendationDto(
     @SerializedName("allocations") val allocations: List<AllocationItemDto>? = null,
     @SerializedName("explanation") val explanation: String? = null,
     @SerializedName("risk_exposure") val riskExposure: String? = null,
-    @SerializedName("timestamp") val timestamp: String? = null
+    @SerializedName("timestamp") val timestamp: String? = null,
+    @SerializedName("current_allocation_source") val currentAllocationSource: String? = null
 )
 
 data class AllocationItemDto(
@@ -62,7 +64,8 @@ data class AssetItemDto(
     @SerializedName("symbol") val symbol: String? = null,
     @SerializedName("price") val price: Double? = null,
     @SerializedName("change_pct") val changePct: Double? = null,
-    @SerializedName("trend") val trend: String? = null
+    @SerializedName("trend") val trend: String? = null,
+    @SerializedName("category") val category: String? = null
 )
 
 /**
@@ -74,11 +77,32 @@ data class AnalyticsDto(
     @SerializedName("max_drawdown") val maxDrawdown: Double? = null,
     @SerializedName("volatility") val volatility: Double? = null,
     @SerializedName("insights") val insights: String? = null,
-    @SerializedName("timestamp") val timestamp: String? = null
+    @SerializedName("timestamp") val timestamp: String? = null,
+    @SerializedName("regime_segments") val regimeSegments: List<RegimeSegmentDto>? = null,
+    @SerializedName("model_performance") val modelPerformance: Map<String, ModelEvaluationDto>? = null
 )
 
 data class PerformanceItemDto(
     @SerializedName("timestamp") val timestamp: Long? = null,
     @SerializedName("portfolio_return") val portfolioReturn: Float? = null,
     @SerializedName("benchmark_return") val benchmarkReturn: Float? = null
+)
+
+data class RegimeSegmentDto(
+    @SerializedName("regime") val regime: String? = null,
+    @SerializedName("percentage") val percentage: Float? = null
+)
+
+data class ModelEvaluationDto(
+    @SerializedName("test") val test: ModelMetricsDto? = null
+)
+
+data class ModelMetricsDto(
+    @SerializedName("accuracy") val accuracy: Double? = null,
+    @SerializedName("precision") val precision: Double? = null,
+    @SerializedName("recall") val recall: Double? = null,
+    @SerializedName("f1") val f1: Double? = null,
+    @SerializedName("roc_auc") val rocAuc: Double? = null,
+    @SerializedName("pr_auc") val prAuc: Double? = null,
+    @SerializedName("brier_score") val brierScore: Double? = null
 )

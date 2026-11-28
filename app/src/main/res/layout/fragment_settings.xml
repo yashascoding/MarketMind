@@ -61,8 +61,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:fontFamily="monospace"
-                        android:inputType="textUri"
-                        android:text="@string/settings_connection_url_hint" />
+                        android:inputType="textUri" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <LinearLayout
@@ -219,6 +218,14 @@
                     android:text="@string/settings_app_version"
                     android:textAppearance="?attr/textAppearanceBodyMedium"
                     android:textColor="?attr/colorOnSurfaceVariant" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btn_sign_out"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="@dimen/spacing_12dp"
+                    android:text="@string/auth_sign_out" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
 

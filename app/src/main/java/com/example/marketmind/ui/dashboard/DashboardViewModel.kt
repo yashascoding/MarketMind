@@ -5,7 +5,6 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.marketmind.data.repository.MarketRepository
 import com.example.marketmind.data.repository.MarketRepositoryImpl
-import com.example.marketmind.data.repository.MockDataProvider
 import com.example.marketmind.domain.model.MarketAsset
 import com.example.marketmind.domain.model.RegimeData
 import com.example.marketmind.domain.model.RiskData
@@ -60,13 +59,12 @@ class DashboardViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     private fun filterOverview(category: String) {
-        val list = if (rawOverview.isNotEmpty()) rawOverview else MockDataProvider.getMockMarketOverview()
         val filtered = if (category.equals("ALL", ignoreCase = true)) {
-            list
+            rawOverview
         } else {
-            list.filter { it.category.equals(category, ignoreCase = true) }
+            rawOverview.filter { it.category.equals(category, ignoreCase = true) }
         }
-        _overviewState.value = UiState.Success(if (filtered.isEmpty()) list else filtered)
+        _overviewState.value = if (filtered.isEmpty()) UiState.Empty else UiState.Success(filtered)
     }
 
     private fun loadData() {

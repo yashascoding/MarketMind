@@ -7,6 +7,23 @@
     <string name="nav_portfolio">Portfolio</string>
     <string name="nav_analytics">Analytics</string>
     <string name="nav_settings">Settings</string>
+    <string name="dashboard_ai_badge">AI</string>
+    <string name="dashboard_summary_regime">REGIME</string>
+    <string name="dashboard_summary_model">MODEL</string>
+    <string name="dashboard_summary_risk">RISK LEVEL</string>
+    <string name="watchlist_breadth_format">Watchlist: %1$d up  •  %2$d down  •  %3$d unchanged</string>
+    <string name="portfolio_state_label">PORTFOLIO RISK</string>
+    <string name="portfolio_largest_shift">LARGEST CHANGE</string>
+    <string name="portfolio_state_unknown">Not available</string>
+    <string name="portfolio_adjustment_count">%1$d allocation changes to review</string>
+    <string name="portfolio_no_adjustments">All allocations match the model targets</string>
+    <string name="portfolio_no_allocation_data">No allocation data is available</string>
+    <string name="portfolio_no_rationale">No explanation was provided for this model output.</string>
+    <string name="analytics_portfolio_return">PORTFOLIO</string>
+    <string name="analytics_benchmark_return">NIFTY 50</string>
+    <string name="analytics_relative_return">VS NIFTY 50</string>
+    <string name="value_unavailable">—</string>
+    <string name="analytics_insight_unavailable">No generated insight is available for this period. Review the chart and risk metrics below.</string>
 
     <!-- Header & Common Status -->
     <string name="dashboard_title">Market Dashboard</string>
@@ -43,11 +60,27 @@
     <string name="auth_demo_action">Explore demo dashboard</string>
     <string name="auth_demo_note">Demo access uses sample market data. No account is created.</string>
     <string name="auth_demo_toast">Opening the demo dashboard</string>
-    <string name="auth_unavailable_message">Authentication is not connected yet. Use demo access to continue; no credentials were sent or saved.</string>
+    <string name="auth_firebase_setup_required">Firebase is not configured. Add your Firebase app config and enable a sign-in provider to continue.</string>
+    <string name="auth_google_action">Continue with Google</string>
+    <string name="auth_google_signing_in">Connecting to Google...</string>
+    <string name="auth_google_setup_required">Google sign-in is not configured. Enable Google in Firebase and add the updated google-services.json file.</string>
+    <string name="auth_google_provider_disabled">Google sign-in is disabled for this Firebase project.</string>
+    <string name="auth_google_error">Could not complete Google sign-in. Please try again.</string>
+    <string name="auth_signing_in">Signing in...</string>
+    <string name="auth_creating_account">Creating account...</string>
+    <string name="auth_sign_out">Sign out</string>
+    <string name="auth_profile_name_update_failed">Your account was created, but the profile name could not be saved.</string>
     <string name="auth_error_name_required">Enter your name.</string>
     <string name="auth_error_email_invalid">Enter a valid email address.</string>
     <string name="auth_error_password_short">Use at least 8 characters.</string>
     <string name="auth_error_password_mismatch">Passwords do not match.</string>
+    <string name="auth_error_credentials">Email or password is incorrect.</string>
+    <string name="auth_error_email_in_use">An account already exists for this email.</string>
+    <string name="auth_error_password_weak">Choose a stronger password.</string>
+    <string name="auth_error_network">Could not reach Firebase. Check your connection and try again.</string>
+    <string name="auth_error_rate_limited">Too many attempts. Wait a while before trying again.</string>
+    <string name="auth_error_provider_disabled">Email/password sign-in is disabled for this Firebase project.</string>
+    <string name="auth_error_generic">Authentication failed. Please try again.</string>
 
     <!-- Risk Gauge Section -->
     <string name="risk_gauge_title">Market Risk Index</string>
@@ -77,7 +110,7 @@
 
     <!-- Risk Chart -->
     <string name="historical_risk_title">Historical Risk Probability</string>
-    <string name="historical_risk_subtitle">LSTM 30-Day Probability Trend</string>
+    <string name="historical_risk_subtitle">LSTM Elevated-Risk Probability Trend</string>
     <string name="chart_touch_hint">Touch chart to inspect probability values</string>
     <string name="chart_empty_risk">No historical risk data available.</string>
 
@@ -116,7 +149,7 @@
     <string name="settings_refresh_section">Data Refresh Settings</string>
     <string name="settings_auto_refresh">Background Auto-Refresh</string>
     <string name="settings_demo_mode">Demo / Offline Data Mode</string>
-    <string name="settings_demo_mode_desc">Automatically use high-quality simulated market predictions when server is offline</string>
+    <string name="settings_demo_mode_desc">Show sample market predictions instead of live backend outputs</string>
     <string name="settings_app_info">Application Details</string>
     <string name="settings_app_version">Version 1.0.0 (Build 1)</string>
     <string name="settings_disclaimer_title">Academic Prototype Disclaimer</string>

@@ -34,6 +34,7 @@ object MarketMappers {
             category = level,
             explanation = dto.explanation,
             asOfTimestamp = dto.timestamp ?: timeFormat.format(Date()),
+            threshold = dto.riskThreshold?.coerceIn(0f, 100f) ?: 50f,
             history = history
         )
     }
@@ -58,7 +59,8 @@ object MarketMappers {
                     symbol = item.symbol ?: item.id.uppercase(),
                     price = item.price,
                     changePercent = item.changePct ?: 0.0,
-                    trend = item.trend ?: if ((item.changePct ?: 0.0) >= 0) "up" else "down"
+                    trend = item.trend ?: if ((item.changePct ?: 0.0) >= 0) "up" else "down",
+                    category = item.category ?: "Indices"
                 )
             } else null
         }
@@ -81,7 +83,12 @@ object MarketMappers {
         }
         return PortfolioRecommendation(
             currentAllocations = list,
-            explanation = dto.explanation,
+            explanation = listOfNotNull(
+                dto.explanation,
+                dto.currentAllocationSource
+                    ?.takeIf { it.contains("benchmark assumption", ignoreCase = true) }
+                    ?.let { "Current weights use a 60/20/20 benchmark assumption, not your actual holdings." }
+            ).joinToString(" ").takeIf { it.isNotBlank() },
             riskExposure = dto.riskExposure,
             asOfTimestamp = dto.timestamp ?: timeFormat.format(Date())
         )
@@ -106,18 +113,48 @@ object MarketMappers {
         dto.volatility?.let {
             metrics.add(RiskMetric("Annualized Volatility", String.format(Locale.US, "%.1f%%", it), "%", "Annualized standard deviation of returns"))
         }
+        dto.modelPerformance?.forEach { (modelName, evaluation) ->
+            evaluation.test?.let { test ->
+                listOf(
+                    "Accuracy" to test.accuracy,
+                    "Precision" to test.precision,
+                    "Recall" to test.recall,
+                    "F1-score" to test.f1,
+                    "ROC-AUC" to test.rocAuc,
+                    "PR-AUC" to test.prAuc,
+                    "Brier score" to test.brierScore
+                ).forEach { (metricName, value) ->
+                    value?.let {
+                        metrics.add(
+                            RiskMetric(
+                                "$modelName test $metricName",
+                                String.format(Locale.US, "%.3f", it),
+                                "",
+                                "Chronological unseen test-period model comparison"
+                            )
+                        )
+                    }
+                }
+            }
+        }
 
-        val regimeSegments = listOf(
-            RegimeSegment("Calm", 45f, 0xFF10B981.toInt()),
-            RegimeSegment("Volatile", 35f, 0xFFF59E0B.toInt()),
-            RegimeSegment("Bearish", 20f, 0xFFEF4444.toInt())
+        val regimeColors = mapOf(
+            "calm" to 0xFF10B981.toInt(),
+            "volatile" to 0xFFF59E0B.toInt(),
+            "bearish" to 0xFFEF4444.toInt()
         )
+        val regimeSegments = dto.regimeSegments.orEmpty().mapNotNull { item ->
+            val name = item.regime ?: return@mapNotNull null
+            val percentage = item.percentage ?: return@mapNotNull null
+            val color = regimeColors[name.lowercase(Locale.ROOT)] ?: return@mapNotNull null
+            RegimeSegment(name, percentage, color)
+        }
 
         return AnalyticsData(
             performancePoints = perfPoints,
             riskMetrics = metrics,
             regimeSegments = regimeSegments,
-            insights = dto.insights ?: "Portfolio risk-adjusted performance remains optimal with disciplined allocation.",
+            insights = dto.insights,
             asOfTimestamp = dto.timestamp ?: timeFormat.format(Date())
         )
     }

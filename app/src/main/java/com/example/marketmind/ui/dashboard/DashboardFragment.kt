@@ -159,7 +159,8 @@ class DashboardFragment : Fragment() {
                 val risk = state.data
                 binding.gaugeRisk.setRiskProbability(risk.probability)
                 binding.tvRiskExplanation.text = risk.explanation ?: getString(R.string.risk_no_data)
-                binding.chartHistoricalRisk.setData(risk.history)
+                binding.chartHistoricalRisk.setData(risk.history, risk.threshold)
+                updateRiskSummary(risk)
 
                 val asOfText = if (state.isStale) {
                     getString(R.string.status_stale, risk.asOfTimestamp)
@@ -178,7 +179,8 @@ class DashboardFragment : Fragment() {
                 if (cached != null) {
                     binding.gaugeRisk.setRiskProbability(cached.probability)
                     binding.tvRiskExplanation.text = cached.explanation ?: getString(R.string.risk_no_data)
-                    binding.chartHistoricalRisk.setData(cached.history)
+                    binding.chartHistoricalRisk.setData(cached.history, cached.threshold)
+                    updateRiskSummary(cached)
                     binding.tvLastUpdated.text = getString(R.string.status_stale, cached.asOfTimestamp)
                 } else {
                     showErrorUI(state.type, state.message)
@@ -195,11 +197,26 @@ class DashboardFragment : Fragment() {
         }
         regime?.let {
             binding.tvRegimeName.text = it.regime
+            binding.tvMarketPulse.text = it.regime
             binding.tvRegimeDescription.text = it.description ?: getRegimeDescription(it.regime)
             it.confidence?.let { conf ->
                 binding.tvRegimeConfidence.text = getString(R.string.regime_confidence_format, conf)
             }
         }
+    }
+
+    private fun updateRiskSummary(risk: RiskData) {
+        binding.tvMarketSignal.text = risk.category
+        val color = when (risk.category.lowercase()) {
+            "low" -> R.color.risk_low
+            "moderate" -> R.color.risk_moderate
+            "high" -> R.color.risk_high
+            "critical" -> R.color.risk_critical
+            "normal" -> R.color.risk_low
+            "elevated" -> R.color.risk_high
+            else -> R.color.text_secondary_dark
+        }
+        binding.tvMarketSignal.setTextColor(ContextCompat.getColor(requireContext(), color))
     }
 
     @Suppress("UNCHECKED_CAST")
@@ -211,8 +228,17 @@ class DashboardFragment : Fragment() {
         }
         list?.let {
             marketAssets = it
+            updateMarketBreadth(it)
             applyAssetCategoryFilter(getCurrentFilter())
         }
+    }
+
+    private fun updateMarketBreadth(assets: List<MarketAsset>) {
+        val advancing = assets.count { it.changePercent > 0.0 }
+        val declining = assets.count { it.changePercent < 0.0 }
+        val unchanged = assets.size - advancing - declining
+        binding.tvMarketBreadth.text =
+            getString(R.string.watchlist_breadth_format, advancing, declining, unchanged)
     }
 
     private fun getCurrentFilter(): String {

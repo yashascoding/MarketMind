@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -19,6 +20,7 @@ import com.example.marketmind.ui.common.HapticFeedbackUtil
 import com.example.marketmind.ui.common.UiState
 import com.example.marketmind.ui.views.AllocationSlice
 import kotlinx.coroutines.launch
+import kotlin.math.abs
 
 class PortfolioFragment : Fragment() {
 
@@ -121,39 +123,7 @@ class PortfolioFragment : Fragment() {
                 binding.errorView.containerError.visibility = View.GONE
                 binding.emptyView.containerEmpty.visibility = View.GONE
 
-                val recommendation = state.data
-                allocations = recommendation.currentAllocations
-                applyAllocationFilter(
-                    when {
-                        binding.chipAllocIncrease.isChecked -> "increase"
-                        binding.chipAllocDecrease.isChecked -> "decrease"
-                        else -> "all"
-                    }
-                )
-
-                val largestShift = recommendation.currentAllocations.minByOrNull {
-                    it.differencePercentage
-                }
-                binding.tvMajorShift.text = String.format(
-                    java.util.Locale.US,
-                    "%+.1f%%",
-                    largestShift?.differencePercentage ?: 0f
-                )
-                binding.tvPortfolioState.text =
-                    recommendation.riskExposure?.substringBefore("(")?.trim() ?: "Balanced"
-
-                // Update Donut Charts
-                val currentSlices = recommendation.currentAllocations.map {
-                    AllocationSlice(it.assetName, it.currentPercentage, parseColorSafe(it.colorHex))
-                }
-                val suggestedSlices = recommendation.currentAllocations.map {
-                    AllocationSlice(it.assetName, it.suggestedPercentage, parseColorSafe(it.colorHex))
-                }
-
-                binding.chartCurrentAllocation.setData(currentSlices, "Current")
-                binding.chartSuggestedAllocation.setData(suggestedSlices, "Suggested")
-
-                binding.tvRationaleBody.text = recommendation.explanation ?: getString(R.string.settings_disclaimer)
+                renderRecommendation(state.data)
             }
             is UiState.Empty -> {
                 binding.skeletonView.containerSkeletonPortfolio.visibility = View.GONE
@@ -163,15 +133,76 @@ class PortfolioFragment : Fragment() {
                 binding.skeletonView.containerSkeletonPortfolio.visibility = View.GONE
                 val cached = state.cachedData as? PortfolioRecommendation
                 if (cached != null) {
-                    allocations = cached.currentAllocations
-                    applyAllocationFilter("all")
+                    binding.errorView.containerError.visibility = View.GONE
+                    binding.emptyView.containerEmpty.visibility = View.GONE
+                    renderRecommendation(cached)
                 } else {
+                    binding.emptyView.containerEmpty.visibility = View.GONE
                     binding.errorView.containerError.visibility = View.VISIBLE
                     binding.errorView.tvErrorTitle.text = getString(R.string.error_backend_unavailable_title)
                     binding.errorView.tvErrorMessage.text = state.message
                 }
             }
         }
+    }
+
+    private fun renderRecommendation(recommendation: PortfolioRecommendation) {
+        allocations = recommendation.currentAllocations
+        applyAllocationFilter(
+            when {
+                binding.chipAllocIncrease.isChecked -> "increase"
+                binding.chipAllocDecrease.isChecked -> "decrease"
+                else -> "all"
+            }
+        )
+
+        val largestShift = allocations.maxByOrNull { abs(it.differencePercentage) }
+        val difference = largestShift?.differencePercentage
+        binding.tvMajorShift.text = difference?.let {
+            String.format(java.util.Locale.US, "%+.1f%%", it)
+        } ?: getString(R.string.value_unavailable)
+        val shiftColor = when {
+            difference == null -> R.color.text_secondary_dark
+            difference > 0f -> R.color.market_positive
+            difference < 0f -> R.color.market_negative
+            else -> R.color.market_neutral
+        }
+        binding.tvMajorShift.setTextColor(ContextCompat.getColor(requireContext(), shiftColor))
+        val riskExposure = recommendation.riskExposure
+            ?.substringBefore("(")
+            ?.trim()
+            ?.takeIf { it.isNotEmpty() }
+        binding.tvPortfolioState.text = riskExposure ?: getString(R.string.portfolio_state_unknown)
+        val exposureColor = when {
+            riskExposure?.contains("critical", ignoreCase = true) == true -> R.color.risk_critical
+            riskExposure?.contains("high", ignoreCase = true) == true -> R.color.risk_high
+            riskExposure?.contains("moderate", ignoreCase = true) == true -> R.color.risk_moderate
+            riskExposure?.contains("low", ignoreCase = true) == true -> R.color.risk_low
+            else -> R.color.text_secondary_dark
+        }
+        binding.tvPortfolioState.setTextColor(
+            ContextCompat.getColor(requireContext(), exposureColor)
+        )
+
+        val adjustmentCount = allocations.count { abs(it.differencePercentage) >= 0.05f }
+        binding.tvAdjustmentSummary.text = when {
+            allocations.isEmpty() -> getString(R.string.portfolio_no_allocation_data)
+            adjustmentCount == 0 -> {
+                getString(R.string.portfolio_no_adjustments)
+            }
+            else -> getString(R.string.portfolio_adjustment_count, adjustmentCount)
+        }
+
+        val currentSlices = allocations.map {
+            AllocationSlice(it.assetName, it.currentPercentage, parseColorSafe(it.colorHex))
+        }
+        val suggestedSlices = allocations.map {
+            AllocationSlice(it.assetName, it.suggestedPercentage, parseColorSafe(it.colorHex))
+        }
+        binding.chartCurrentAllocation.setData(currentSlices, "Current")
+        binding.chartSuggestedAllocation.setData(suggestedSlices, "Suggested")
+        binding.tvRationaleBody.text =
+            recommendation.explanation ?: getString(R.string.portfolio_no_rationale)
     }
 
     private fun applyAllocationFilter(filter: String) {

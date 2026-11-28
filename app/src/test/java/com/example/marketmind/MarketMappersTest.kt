@@ -12,6 +12,7 @@ class MarketMappersTest {
     fun testRiskMapping_validDto_returnsMappedRiskData() {
         val dto = RiskDto(
             riskProbability = 45.5f,
+            riskThreshold = 42f,
             riskLevel = "Moderate",
             explanation = "Sample risk prediction",
             timestamp = "14:30:00",
@@ -24,6 +25,7 @@ class MarketMappersTest {
         assertEquals(45.5f, result!!.probability, 0.01f)
         assertEquals("Moderate", result.category)
         assertEquals("Sample risk prediction", result.explanation)
+        assertEquals(42f, result.threshold, 0.01f)
         assertEquals(1, result.history.size)
     }
 
@@ -31,6 +33,35 @@ class MarketMappersTest {
     fun testRiskMapping_nullDto_returnsNull() {
         val result = MarketMappers.mapRisk(null)
         assertNull(result)
+    }
+
+    @Test
+    fun analyticsMapping_withoutInsight_doesNotInventOne() {
+        val result = MarketMappers.mapAnalytics(AnalyticsDto())
+
+        assertNull(result.insights)
+        assertTrue(result.regimeSegments.isEmpty())
+        assertTrue(result.riskMetrics.isEmpty())
+    }
+
+    @Test
+    fun analyticsMapping_usesBackendRegimesAndTestMetrics() {
+        val result = MarketMappers.mapAnalytics(
+            AnalyticsDto(
+                regimeSegments = listOf(RegimeSegmentDto("Bearish", 20f)),
+                modelPerformance = mapOf(
+                    "LSTM" to ModelEvaluationDto(
+                        test = ModelMetricsDto(accuracy = 0.71, brierScore = 0.14)
+                    )
+                )
+            )
+        )
+
+        assertEquals(1, result.regimeSegments.size)
+        assertEquals("Bearish", result.regimeSegments.single().regimeName)
+        assertEquals(2, result.riskMetrics.size)
+        assertEquals("LSTM test Accuracy", result.riskMetrics.first().name)
+        assertEquals("0.140", result.riskMetrics.last().value)
     }
 
     @Test
